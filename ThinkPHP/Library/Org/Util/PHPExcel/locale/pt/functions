@@ -1,0 +1,408 @@
+##
+##	Add-in and Automation functions			Funções de Suplemento e Automatização
+##
+GETPIVOTDATA		= OBTERDADOSDIN			##	Dchialve dados armazenados num relatório de Tabela Dinâmica
+
+
+##
+##	Cube functions					Funções de cubo
+##
+CUBEKPIMEMBER		= MEMBROKPICUBO			##	Dchialve o nome, propriedade e medição de um KPI (key performance indicator) e apresenta o nome e a propriedade na célula. Um KPI é uma medida quantificável, como, por exemplo, o lucro mensal bruto ou a rotatividade trimestral de pessoal, utilizada para monitorizar o desempenho de uma organização.
+CUBEMEMBER		= MEMBROCUBO			##	Dchialve um membro ou cadeia de identificação numa hierarquia de cubo. Utilizada para validar a existência do membro ou cadeia de identificação no cubo.
+CUBEMEMBERPROPERTY	= PROPRIEDADEMEMBROCUBO		##	Dchialve o valor de uma propriedade de membro no cubo. Utilizada para validar a existência de um nome de membro no cubo e para dchialver a propriedade especificada para esse membro.
+CUBERANKEDMEMBER	= MEMBROCLASSIFICADOCUBO	##	Dchialve o enésimo ou a classificação mais alta num conjunto. Utilizada para dchialver um ou mais elementos num conjunto, tal como o melhor vendedor ou os 10 melhores alunos.
+CUBESET			= CONJUNTOCUBO			##	Define um conjunto calculado de membros ou cadeias de identificação enviando uma expressão de conjunto para o cubo no servidor, que cria o conjunto e, em seguida, dchialve o conjunto ao Microsoft Office Excel.
+CUBESETCOUNT		= CONTARCONJUNTOCUBO		##	Dchialve o número de itens num conjunto.
+CUBEVALUE		= VALORCUBO			##	Dchialve um valor agregado do cubo.
+
+
+##
+##	Database functions				Funções de base de dados
+##
+DAVERAGE		= BDMÉDIA			##	Dchialve a média das entradas da base de dados seleccionadas
+DCOUNT			= BDCONTAR			##	Conta as células que contêm números numa base de dados
+DCOUNTA			= BDCONTAR.VAL			##	Conta as células que não estejam em branco numa base de dados
+DGET			= BDOBTER			##	Extrai de uma base de dados um único registo que corresponde aos critérios especificados
+DMAX			= BDMÁX				##	Dchialve o valor máximo das entradas da base de dados seleccionadas
+DMIN			= BDMÍN				##	Dchialve o valor mínimo das entradas da base de dados seleccionadas
+DPRODUCT		= BDMULTIPL			##	Multiplica os valores de um determinado campo de registos que correspondem aos critérios numa base de dados
+DSTDEV			= BDDESVPAD			##	Calcula o desvio-padrão com base numa amostra de entradas da base de dados seleccionadas
+DSTDEVP			= BDDESVPADP			##	Calcula o desvio-padrão com base na população total das entradas da base de dados seleccionadas
+DSUM			= BDSOMA			##	Adiciona os números na coluna de campo dos registos de base de dados que correspondem aos critérios
+DVAR			= BDVAR				##	Calcula a variância com base numa amostra das entradas de base de dados seleccionadas
+DVARP			= BDVARP			##	Calcula a variância com base na população total das entradas de base de dados seleccionadas
+
+
+##
+##	Date and time functions				Funções de data e hora
+##
+DATE			= DATA				##	Dchialve o número de série de uma determinada data
+DATEVALUE		= DATA.VALOR			##	Converte uma data em forma de texto num número de série
+DAY			= DIA				##	Converte um número de série num dia do mês
+DAYS360			= DIAS360			##	Calcula o número de dias entre duas datas com base num ano com 360 dias
+EDATE			= DATAM				##	Dchialve um número de série de data que corresponde ao número de meses indicado antes ou depois da data de início
+EOMONTH			= FIMMÊS			##	Dchialve o número de série do último dia do mês antes ou depois de um número de meses especificado
+HOUR			= HORA				##	Converte um número de série numa hora
+MINUTE			= MINUTO			##	Converte um número de série num minuto
+MONTH			= MÊS				##	Converte um número de série num mês
+NETWORKDAYS		= DIATRABALHOTOTAL		##	Dchialve o número total de dias úteis entre duas datas
+NOW			= AGORA				##	Dchialve o número de série da data e hora actuais
+SECOND			= SEGUNDO			##	Converte um número de série num segundo
+TIME			= TEMPO				##	Dchialve o número de série de um determinado tempo
+TIMEVALUE		= VALOR.TEMPO			##	Converte um tempo em forma de texto num número de série
+TODAY			= HOJE				##	Dchialve o número de série da data actual
+WEEKDAY			= DIA.SEMANA			##	Converte um número de série num dia da semana
+WEEKNUM			= NÚMSEMANA			##	Converte um número de série num número que representa o número da semana num determinado ano
+WORKDAY			= DIA.TRABALHO			##	Dchialve o número de série da data antes ou depois de um número de dias úteis especificado
+YEAR			= ANO				##	Converte um número de série num ano
+YEARFRAC		= FRACÇÃOANO			##	Dchialve a fracção de ano que representa o número de dias inteiros entre a data_de_início e a data_de_fim
+
+
+##
+##	Engineering functions				Funções de engenharia
+##
+BESSELI			= BESSELI			##	Dchialve a função de Bessel modificada In(x)
+BESSELJ			= BESSELJ			##	Dchialve a função de Bessel Jn(x)
+BESSELK			= BESSELK			##	Dchialve a função de Bessel modificada Kn(x)
+BESSELY			= BESSELY			##	Dchialve a função de Bessel Yn(x)
+BIN2DEC			= BINADEC			##	Converte um número binário em decimal
+BIN2HEX			= BINAHEX			##	Converte um número binário em hexadecimal
+BIN2OCT			= BINAOCT			##	Converte um número binário em octal
+COMPLEX			= COMPLEXO			##	Converte coeficientes reais e imaginários num número complexo
+CONVERT			= CONVERTER			##	Converte um número de um sistema de medida noutro
+DEC2BIN			= DECABIN			##	Converte um número decimal em binário
+DEC2HEX			= DECAHEX			##	Converte um número decimal em hexadecimal
+DEC2OCT			= DECAOCT			##	Converte um número decimal em octal
+DELTA			= DELTA				##	Testa se dois valores são iguais
+ERF			= FUNCERRO			##	Dchialve a função de erro
+ERFC			= FUNCERROCOMPL			##	Dchialve a função de erro complementar
+GESTEP			= DEGRAU			##	Testa se um número é maior do que um valor limite
+HEX2BIN			= HEXABIN			##	Converte um número hexadecimal em binário
+HEX2DEC			= HEXADEC			##	Converte um número hexadecimal em decimal
+HEX2OCT			= HEXAOCT			##	Converte um número hexadecimal em octal
+IMABS			= IMABS				##	Dchialve o valor absoluto (módulo) de um número complexo
+IMAGINARY		= IMAGINÁRIO			##	Dchialve o coeficiente imaginário de um número complexo
+IMARGUMENT		= IMARG				##	Dchialve o argumento Teta, um ângulo expresso em radianos
+IMCONJUGATE		= IMCONJ			##	Dchialve o conjugado complexo de um número complexo
+IMCOS			= IMCOS				##	Dchialve o co-seno de um número complexo
+IMDIV			= IMDIV				##	Dchialve o quociente de dois números complexos
+IMEXP			= IMEXP				##	Dchialve o exponencial de um número complexo
+IMLN			= IMLN				##	Dchialve o logaritmo natural de um número complexo
+IMLOG10			= IMLOG10			##	Dchialve o logaritmo de base 10 de um número complexo
+IMLOG2			= IMLOG2			##	Dchialve o logaritmo de base 2 de um número complexo
+IMPOWER			= IMPOT				##	Dchialve um número complexo elevado a uma potência inteira
+IMPRODUCT		= IMPROD			##	Dchialve o produto de números complexos
+IMREAL			= IMREAL			##	Dchialve o coeficiente real de um número complexo
+IMSIN			= IMSENO			##	Dchialve o seno de um número complexo
+IMSQRT			= IMRAIZ			##	Dchialve a raiz quadrada de um número complexo
+IMSUB			= IMSUBTR			##	Dchialve a diferença entre dois números complexos
+IMSUM			= IMSOMA			##	Dchialve a soma de números complexos
+OCT2BIN			= OCTABIN			##	Converte um número octal em binário
+OCT2DEC			= OCTADEC			##	Converte um número octal em decimal
+OCT2HEX			= OCTAHEX			##	Converte um número octal em hexadecimal
+
+
+##
+##	Financial functions				Funções financeiras
+##
+ACCRINT			= JUROSACUM			##	Dchialve os juros acumulados de um título que paga juros periódicos
+ACCRINTM		= JUROSACUMV			##	Dchialve os juros acumulados de um título que paga juros no vencimento
+AMORDEGRC		= AMORDEGRC			##	Dchialve a depreciação correspondente a cada período contabilístico utilizando um coeficiente de depreciação
+AMORLINC		= AMORLINC			##	Dchialve a depreciação correspondente a cada período contabilístico
+COUPDAYBS		= CUPDIASINLIQ			##	Dchialve o número de dias entre o início do período do cupão e a data de regularização
+COUPDAYS		= CUPDIAS			##	Dchialve o número de dias no período do cupão que contém a data de regularização
+COUPDAYSNC		= CUPDIASPRÓX			##	Dchialve o número de dias entre a data de regularização e a data do cupão seguinte
+COUPNCD			= CUPDATAPRÓX			##	Dchialve a data do cupão seguinte após a data de regularização
+COUPNUM			= CUPNÚM			##	Dchialve o número de cupões a serem pagos entre a data de regularização e a data de vencimento
+COUPPCD			= CUPDATAANT			##	Dchialve a data do cupão anterior antes da data de regularização
+CUMIPMT			= PGTOJURACUM			##	Dchialve os juros cumulativos pagos entre dois períodos
+CUMPRINC		= PGTOCAPACUM			##	Dchialve o capital cumulativo pago a título de empréstimo entre dois períodos
+DB			= BD				##	Dchialve a depreciação de um activo relativo a um período especificado utilizando o método das quotas degressivas fixas
+DDB			= BDD				##	Dchialve a depreciação de um activo relativo a um período especificado utilizando o método das quotas degressivas duplas ou qualquer outro método especificado
+DISC			= DESC				##	Dchialve a taxa de desconto de um título
+DOLLARDE		= MOEDADEC			##	Converte um preço em unidade monetária, expresso como uma fracção, num preço em unidade monetária, expresso como um número decimal
+DOLLARFR		= MOEDAFRA			##	Converte um preço em unidade monetária, expresso como um número decimal, num preço em unidade monetária, expresso como uma fracção
+DURATION		= DURAÇÃO			##	Dchialve a duração anual de um título com pagamentos de juros periódicos
+EFFECT			= EFECTIVA			##	Dchialve a taxa de juros anual efectiva
+FV			= VF				##	Dchialve o valor futuro de um investimento
+FVSCHEDULE		= VFPLANO			##	Dchialve o valor futuro de um capital inicial após a aplicação de uma série de taxas de juro compostas
+INTRATE			= TAXAJUROS			##	Dchialve a taxa de juros de um título investido na totalidade
+IPMT			= IPGTO				##	Dchialve o pagamento dos juros de um investimento durante um determinado período
+IRR			= TIR				##	Dchialve a taxa de rentabilidade interna para uma série de fluxos monetários
+ISPMT			= É.PGTO			##	Calcula os juros pagos durante um período específico de um investimento
+MDURATION		= MDURAÇÃO			##	Dchialve a duração modificada de Macauley de um título com um valor de paridade equivalente a € 100
+MIRR			= MTIR				##	Dchialve a taxa interna de rentabilidade em que os fluxos monetários positivos e negativos são financiados com taxas diferentes
+NOMINAL			= NOMINAL			##	Dchialve a taxa de juros nominal anual
+NPER			= NPER				##	Dchialve o número de períodos de um investimento
+NPV			= VAL				##	Dchialve o valor actual líquido de um investimento com base numa série de fluxos monetários periódicos e numa taxa de desconto
+ODDFPRICE		= PREÇOPRIMINC			##	Dchialve o preço por € 100 do valor nominal de um título com um período inicial incompleto
+ODDFYIELD		= LUCROPRIMINC			##	Dchialve o lucro de um título com um período inicial incompleto
+ODDLPRICE		= PREÇOÚLTINC			##	Dchialve o preço por € 100 do valor nominal de um título com um período final incompleto
+ODDLYIELD		= LUCROÚLTINC			##	Dchialve o lucro de um título com um período final incompleto
+PMT			= PGTO				##	Dchialve o pagamento periódico de uma anuidade
+PPMT			= PPGTO				##	Dchialve o pagamento sobre o capital de um investimento num determinado período
+PRICE			= PREÇO				##	Dchialve o preço por € 100 do valor nominal de um título que paga juros periódicos
+PRICEDISC		= PREÇODESC			##	Dchialve o preço por € 100 do valor nominal de um título descontado
+PRICEMAT		= PREÇOVENC			##	Dchialve o preço por € 100 do valor nominal de um título que paga juros no vencimento
+PV			= VA				##	Dchialve o valor actual de um investimento
+RATE			= TAXA				##	Dchialve a taxa de juros por período de uma anuidade
+RECEIVED		= RECEBER			##	Dchialve o montante recebido no vencimento de um título investido na totalidade
+SLN			= AMORT				##	Dchialve uma depreciação linear de um activo durante um período
+SYD			= AMORTD			##	Dchialve a depreciação por algarismos da soma dos anos de um activo durante um período especificado
+TBILLEQ			= OTN				##	Dchialve o lucro de um título equivalente a uma Obrigação do Tesouro
+TBILLPRICE		= OTNVALOR			##	Dchialve o preço por € 100 de valor nominal de uma Obrigação do Tesouro
+TBILLYIELD		= OTNLUCRO			##	Dchialve o lucro de uma Obrigação do Tesouro
+VDB			= BDV				##	Dchialve a depreciação de um activo relativo a um período específico ou parcial utilizando um método de quotas degressivas
+XIRR			= XTIR				##	Dchialve a taxa interna de rentabilidade de um plano de fluxos monetários que não seja necessariamente periódica
+XNPV			= XVAL				##	Dchialve o valor actual líquido de um plano de fluxos monetários que não seja necessariamente periódico
+YIELD			= LUCRO				##	Dchialve o lucro de um título que paga juros periódicos
+YIELDDISC		= LUCRODESC			##	Dchialve o lucro anual de um título emitido abaixo do valor nominal, por exemplo, uma Obrigação do Tesouro
+YIELDMAT		= LUCROVENC			##	Dchialve o lucro anual de um título que paga juros na data de vencimento
+
+
+##
+##	Information functions				Funções de informação
+##
+CELL			= CÉL				##	Dchialve informações sobre a formatação, localização ou conteúdo de uma célula
+ERROR.TYPE		= TIPO.ERRO			##	Dchialve um número correspondente a um tipo de erro
+INFO			= INFORMAÇÃO			##	Dchialve informações sobre o ambiente de funcionamento actual
+ISBLANK			= É.CÉL.VAZIA			##	Dchialve VERDADEIRO se o valor estiver em branco
+ISERR			= É.ERROS			##	Dchialve VERDADEIRO se o valor for um valor de erro diferente de #N/D
+ISERROR			= É.ERRO			##	Dchialve VERDADEIRO se o valor for um valor de erro
+ISEVEN			= ÉPAR				##	Dchialve VERDADEIRO se o número for par
+ISLOGICAL		= É.LÓGICO			##	Dchialve VERDADEIRO se o valor for lógico
+ISNA			= É.NÃO.DISP			##	Dchialve VERDADEIRO se o valor for o valor de erro #N/D
+ISNONTEXT		= É.NÃO.TEXTO			##	Dchialve VERDADEIRO se o valor não for texto
+ISNUMBER		= É.NÚM				##	Dchialve VERDADEIRO se o valor for um número
+ISODD			= ÉÍMPAR			##	Dchialve VERDADEIRO se o número for ímpar
+ISREF			= É.REF				##	Dchialve VERDADEIRO se o valor for uma referência
+ISTEXT			= É.TEXTO			##	Dchialve VERDADEIRO se o valor for texto
+N			= N				##	Dchialve um valor convertido num número
+NA			= NÃO.DISP			##	Dchialve o valor de erro #N/D
+TYPE			= TIPO				##	Dchialve um número que indica o tipo de dados de um valor
+
+
+##
+##	Logical functions				Funções lógicas
+##
+AND			= E				##	Dchialve VERDADEIRO se todos os respectivos argumentos corresponderem a VERDADEIRO
+FALSE			= FALSO				##	Dchialve o valor lógico FALSO
+IF			= SE				##	Especifica um teste lógico a ser executado
+IFERROR			= SE.ERRO			##	Dchialve um valor definido pelo utilizador se ocorrer um erro na fórmula, e dchialve o resultado da fórmula se não ocorrer nenhum erro
+NOT			= NÃO				##	Inverte a lógica do respectivo argumento
+OR			= OU				##	Dchialve VERDADEIRO se qualquer argumento for VERDADEIRO
+TRUE			= VERDADEIRO			##	Dchialve o valor lógico VERDADEIRO
+
+
+##
+##	Lookup and reference functions			Funções de pesquisa e referência
+##
+ADDRESS			= ENDEREÇO			##	Dchialve uma referência a uma única célula numa folha de cálculo como texto
+AREAS			= ÁREAS				##	Dchialve o número de áreas numa referência
+CHOOSE			= SELECCIONAR			##	Selecciona um valor a partir de uma lista de valores
+COLUMN			= COL				##	Dchialve o número da coluna de uma referência
+COLUMNS			= COLS				##	Dchialve o número de colunas numa referência
+HLOOKUP			= PROCH				##	Procura na linha superior de uma matriz e dchialve o valor da célula indicada
+HYPERLINK		= HIPERLIGAÇÃO			##	Cria um atalho ou hiperligação que abre um documento armazenado num servidor de rede, numa intranet ou na Internet
+INDEX			= ÍNDICE			##	Utiliza um índice para escolher um valor de uma referência ou de uma matriz
+INDIRECT		= INDIRECTO			##	Dchialve uma referência indicada por um valor de texto
+LOOKUP			= PROC				##	Procura valores num vector ou numa matriz
+MATCH			= CORRESP			##	Procura valores numa referência ou numa matriz
+OFFSET			= DESLOCAMENTO			##	Dchialve o deslocamento de referência de uma determinada referência
+ROW			= LIN				##	Dchialve o número da linha de uma referência
+ROWS			= LINS				##	Dchialve o número de linhas numa referência
+RTD			= RTD				##	Obtém dados em tempo real a partir de um programa que suporte automatização COM (automatização: modo de trabalhar com objectos de uma aplicação a partir de outra aplicação ou ferramenta de desenvolvimento. Anteriormente conhecida como automatização OLE, a automatização é uma norma da indústria de software e uma funcionalidade COM (Component Object Model).)
+TRANSPOSE		= TRANSPOR			##	Dchialve a transposição de uma matriz
+VLOOKUP			= PROCV				##	Procura na primeira coluna de uma matriz e percorre a linha para dchialver o valor de uma célula
+
+
+##
+##	Math and trigonometry functions			Funções matemáticas e trigonométricas
+##
+ABS			= ABS				##	Dchialve o valor absoluto de um número
+ACOS			= ACOS				##	Dchialve o arco de co-seno de um número
+ACOSH			= ACOSH				##	Dchialve o co-seno hiperbólico inverso de um número
+ASIN			= ASEN				##	Dchialve o arco de seno de um número
+ASINH			= ASENH				##	Dchialve o seno hiperbólico inverso de um número
+ATAN			= ATAN				##	Dchialve o arco de tangente de um número
+ATAN2			= ATAN2				##	Dchialve o arco de tangente das coordenadas x e y
+ATANH			= ATANH				##	Dchialve a tangente hiperbólica inversa de um número
+CEILING			= ARRED.EXCESSO			##	Arredonda um número para o número inteiro mais próximo ou para o múltiplo de significância mais próximo
+COMBIN			= COMBIN			##	Dchialve o número de combinações de um determinado número de objectos
+COS			= COS				##	Dchialve o co-seno de um número
+COSH			= COSH				##	Dchialve o co-seno hiperbólico de um número
+DEGREES			= GRAUS				##	Converte radianos em graus
+EVEN			= PAR				##	Arredonda um número por excesso para o número inteiro mais próximo
+EXP			= EXP				##	Dchialve e elevado à potência de um determinado número
+FACT			= FACTORIAL			##	Dchialve o factorial de um número
+FACTDOUBLE		= FACTDUPLO			##	Dchialve o factorial duplo de um número
+FLOOR			= ARRED.DEFEITO			##	Arredonda um número por defeito até zero
+GCD			= MDC				##	Dchialve o maior divisor comum
+INT			= INT				##	Arredonda um número por defeito para o número inteiro mais próximo
+LCM			= MMC				##	Dchialve o mínimo múltiplo comum
+LN			= LN				##	Dchialve o logaritmo natural de um número
+LOG			= LOG				##	Dchialve o logaritmo de um número com uma base especificada
+LOG10			= LOG10				##	Dchialve o logaritmo de base 10 de um número
+MDETERM			= MATRIZ.DETERM			##	Dchialve o determinante matricial de uma matriz
+MINVERSE		= MATRIZ.INVERSA		##	Dchialve o inverso matricial de uma matriz
+MMULT			= MATRIZ.MULT			##	Dchialve o produto matricial de duas matrizes
+MOD			= RESTO				##	Dchialve o resto da divisão
+MROUND			= MARRED			##	Dchialve um número arredondado para o múltiplo pretendido
+MULTINOMIAL		= POLINOMIAL			##	Dchialve o polinomial de um conjunto de números
+ODD			= ÍMPAR				##	Arredonda por excesso um número para o número inteiro ímpar mais próximo
+PI			= PI				##	Dchialve o valor de pi
+POWER			= POTÊNCIA			##	Dchialve o resultado de um número elevado a uma potência
+PRODUCT			= PRODUTO			##	Multiplica os respectivos argumentos
+QUOTIENT		= QUOCIENTE			##	Dchialve a parte inteira de uma divisão
+RADIANS			= RADIANOS			##	Converte graus em radianos
+RAND			= ALEATÓRIO			##	Dchialve um número aleatório entre 0 e 1
+RANDBETWEEN		= ALEATÓRIOENTRE		##	Dchialve um número aleatório entre os números especificados
+ROMAN			= ROMANO			##	Converte um número árabe em romano, como texto
+ROUND			= ARRED				##	Arredonda um número para um número de dígitos especificado
+ROUNDDOWN		= ARRED.PARA.BAIXO		##	Arredonda um número por defeito até zero
+ROUNDUP			= ARRED.PARA.CIMA		##	Arredonda um número por excesso, afastando-o de zero
+SERIESSUM		= SOMASÉRIE			##	Dchialve a soma de uma série de potências baseada na fórmula
+SIGN			= SINAL				##	Dchialve o sinal de um número
+SIN			= SEN				##	Dchialve o seno de um determinado ângulo
+SINH			= SENH				##	Dchialve o seno hiperbólico de um número
+SQRT			= RAIZQ				##	Dchialve uma raiz quadrada positiva
+SQRTPI			= RAIZPI			##	Dchialve a raiz quadrada de (núm * pi)
+SUBTOTAL		= SUBTOTAL			##	Dchialve um subtotal numa lista ou base de dados
+SUM			= SOMA				##	Adiciona os respectivos argumentos
+SUMIF			= SOMA.SE			##	Adiciona as células especificadas por um determinado critério
+SUMIFS			= SOMA.SE.S			##	Adiciona as células num intervalo que cumpre vários critérios
+SUMPRODUCT		= SOMARPRODUTO			##	Dchialve a soma dos produtos de componentes de matrizes correspondentes
+SUMSQ			= SOMARQUAD			##	Dchialve a soma dos quadrados dos argumentos
+SUMX2MY2		= SOMAX2DY2			##	Dchialve a soma da diferença dos quadrados dos valores correspondentes em duas matrizes
+SUMX2PY2		= SOMAX2SY2			##	Dchialve a soma da soma dos quadrados dos valores correspondentes em duas matrizes
+SUMXMY2			= SOMAXMY2			##	Dchialve a soma dos quadrados da diferença dos valores correspondentes em duas matrizes
+TAN			= TAN				##	Dchialve a tangente de um número
+TANH			= TANH				##	Dchialve a tangente hiperbólica de um número
+TRUNC			= TRUNCAR			##	Trunca um número para um número inteiro
+
+
+##
+##	Statistical functions				Funções estatísticas
+##
+AVEDEV			= DESV.MÉDIO			##	Dchialve a média aritmética dos desvios absolutos à média dos pontos de dados
+AVERAGE			= MÉDIA				##	Dchialve a média dos respectivos argumentos
+AVERAGEA		= MÉDIAA			##	Dchialve uma média dos respectivos argumentos, incluindo números, texto e valores lógicos
+AVERAGEIF		= MÉDIA.SE			##	Dchialve a média aritmética de todas as células num intervalo que cumprem determinado critério
+AVERAGEIFS		= MÉDIA.SE.S			##	Dchialve a média aritmética de todas as células que cumprem múltiplos critérios
+BETADIST		= DISTBETA			##	Dchialve a função de distribuição cumulativa beta
+BETAINV			= BETA.ACUM.INV			##	Dchialve o inverso da função de distribuição cumulativa relativamente a uma distribuição beta específica
+BINOMDIST		= DISTRBINOM			##	Dchialve a probabilidade de distribuição binomial de termo individual
+CHIDIST			= DIST.CHI			##	Dchialve a probabilidade unicaudal da distribuição qui-quadrada
+CHIINV			= INV.CHI			##	Dchialve o inverso da probabilidade unicaudal da distribuição qui-quadrada
+CHITEST			= TESTE.CHI			##	Dchialve o teste para independência
+CONFIDENCE		= INT.CONFIANÇA			##	Dchialve o intervalo de confiança correspondente a uma média de população
+CORREL			= CORREL			##	Dchialve o coeficiente de correlação entre dois conjuntos de dados
+COUNT			= CONTAR			##	Conta os números que existem na lista de argumentos
+COUNTA			= CONTAR.VAL			##	Conta os valores que existem na lista de argumentos
+COUNTBLANK		= CONTAR.VAZIO			##	Conta o número de células em branco num intervalo
+COUNTIF			= CONTAR.SE			##	Calcula o número de células num intervalo que corresponde aos critérios determinados
+COUNTIFS		= CONTAR.SE.S			##	Conta o número de células num intervalo que cumprem múltiplos critérios
+COVAR			= COVAR				##	Dchialve a covariância, que é a média dos produtos de desvios de pares
+CRITBINOM		= CRIT.BINOM			##	Dchialve o menor valor em que a distribuição binomial cumulativa é inferior ou igual a um valor de critério
+DEVSQ			= DESVQ				##	Dchialve a soma dos quadrados dos desvios
+EXPONDIST		= DISTEXPON			##	Dchialve a distribuição exponencial
+FDIST			= DISTF				##	Dchialve a distribuição da probabilidade F
+FINV			= INVF				##	Dchialve o inverso da distribuição da probabilidade F
+FISHER			= FISHER			##	Dchialve a transformação Fisher
+FISHERINV		= FISHERINV			##	Dchialve o inverso da transformação Fisher
+FORECAST		= PREVISÃO			##	Dchialve um valor ao longo de uma tendência linear
+FREQUENCY		= FREQUÊNCIA			##	Dchialve uma distribuição de frequência como uma matriz vertical
+FTEST			= TESTEF			##	Dchialve o resultado de um teste F
+GAMMADIST		= DISTGAMA			##	Dchialve a distribuição gama
+GAMMAINV		= INVGAMA			##	Dchialve o inverso da distribuição gama cumulativa
+GAMMALN			= LNGAMA			##	Dchialve o logaritmo natural da função gama, Γ(x)
+GEOMEAN			= MÉDIA.GEOMÉTRICA		##	Dchialve a média geométrica
+GROWTH			= CRESCIMENTO			##	Dchialve valores ao longo de uma tendência exponencial
+HARMEAN			= MÉDIA.HARMÓNICA		##	Dchialve a média harmónica
+HYPGEOMDIST		= DIST.HIPERGEOM		##	Dchialve a distribuição hipergeométrica
+INTERCEPT		= INTERCEPTAR			##	Dchialve a intercepção da linha de regressão linear
+KURT			= CURT				##	Dchialve a curtose de um conjunto de dados
+LARGE			= MAIOR				##	Dchialve o maior valor k-ésimo de um conjunto de dados
+LINEST			= PROJ.LIN			##	Dchialve os parâmetros de uma tendência linear
+LOGEST			= PROJ.LOG			##	Dchialve os parâmetros de uma tendência exponencial
+LOGINV			= INVLOG			##	Dchialve o inverso da distribuição normal logarítmica
+LOGNORMDIST		= DIST.NORMALLOG		##	Dchialve a distribuição normal logarítmica cumulativa
+MAX			= MÁXIMO			##	Dchialve o valor máximo numa lista de argumentos
+MAXA			= MÁXIMOA			##	Dchialve o valor máximo numa lista de argumentos, incluindo números, texto e valores lógicos
+MEDIAN			= MED				##	Dchialve a mediana dos números indicados
+MIN			= MÍNIMO			##	Dchialve o valor mínimo numa lista de argumentos
+MINA			= MÍNIMOA			##	Dchialve o valor mínimo numa lista de argumentos, incluindo números, texto e valores lógicos
+MODE			= MODA				##	Dchialve o valor mais comum num conjunto de dados
+NEGBINOMDIST		= DIST.BIN.NEG			##	Dchialve a distribuição binominal negativa
+NORMDIST		= DIST.NORM			##	Dchialve a distribuição cumulativa normal
+NORMINV			= INV.NORM			##	Dchialve o inverso da distribuição cumulativa normal
+NORMSDIST		= DIST.NORMP			##	Dchialve a distribuição cumulativa normal padrão
+NORMSINV		= INV.NORMP			##	Dchialve o inverso da distribuição cumulativa normal padrão
+PEARSON			= PEARSON			##	Dchialve o coeficiente de correlação momento/produto de Pearson
+PERCENTILE		= PERCENTIL			##	Dchialve o k-ésimo percentil de valores num intervalo
+PERCENTRANK		= ORDEM.PERCENTUAL		##	Dchialve a ordem percentual de um valor num conjunto de dados
+PERMUT			= PERMUTAR			##	Dchialve o número de permutações de um determinado número de objectos
+POISSON			= POISSON			##	Dchialve a distribuição de Poisson
+PROB			= PROB				##	Dchialve a probabilidade dos valores num intervalo se encontrarem entre dois limites
+QUARTILE		= QUARTIL			##	Dchialve o quartil de um conjunto de dados
+RANK			= ORDEM				##	Dchialve a ordem de um número numa lista numérica
+RSQ			= RQUAD				##	Dchialve o quadrado do coeficiente de correlação momento/produto de Pearson
+SKEW			= DISTORÇÃO			##	Dchialve a distorção de uma distribuição
+SLOPE			= DECLIVE			##	Dchialve o declive da linha de regressão linear
+SMALL			= MENOR				##	Dchialve o menor valor de k-ésimo de um conjunto de dados
+STANDARDIZE		= NORMALIZAR			##	Dchialve um valor normalizado
+STDEV			= DESVPAD			##	Calcula o desvio-padrão com base numa amostra
+STDEVA			= DESVPADA			##	Calcula o desvio-padrão com base numa amostra, incluindo números, texto e valores lógicos
+STDEVP			= DESVPADP			##	Calcula o desvio-padrão com base na população total
+STDEVPA			= DESVPADPA			##	Calcula o desvio-padrão com base na população total, incluindo números, texto e valores lógicos
+STEYX			= EPADYX			##	Dchialve o erro-padrão do valor de y previsto para cada x na regressão
+TDIST			= DISTT				##	Dchialve a distribuição t de Student
+TINV			= INVT				##	Dchialve o inverso da distribuição t de Student
+TREND			= TENDÊNCIA			##	Dchialve valores ao longo de uma tendência linear
+TRIMMEAN		= MÉDIA.INTERNA			##	Dchialve a média do interior de um conjunto de dados
+TTEST			= TESTET			##	Dchialve a probabilidade associada ao teste t de Student
+VAR			= VAR				##	Calcula a variância com base numa amostra
+VARA			= VARA				##	Calcula a variância com base numa amostra, incluindo números, texto e valores lógicos
+VARP			= VARP				##	Calcula a variância com base na população total
+VARPA			= VARPA				##	Calcula a variância com base na população total, incluindo números, texto e valores lógicos
+WEIBULL			= WEIBULL			##	Dchialve a distribuição Weibull
+ZTEST			= TESTEZ			##	Dchialve o valor de probabilidade unicaudal de um teste-z
+
+
+##
+##	Text functions					Funções de texto
+##
+ASC			= ASC				##	Altera letras ou katakana de largura total (byte duplo) numa cadeia de caracteres para caracteres de largura média (byte único)
+BAHTTEXT		= TEXTO.BAHT			##	Converte um número em texto, utilizando o formato monetário ß (baht)
+CHAR			= CARÁCT			##	Dchialve o carácter especificado pelo número de código
+CLEAN			= LIMPAR			##	Remove do texto todos os caracteres não imprimíveis
+CODE			= CÓDIGO			##	Dchialve um código numérico correspondente ao primeiro carácter numa cadeia de texto
+CONCATENATE		= CONCATENAR			##	Agrupa vários itens de texto num único item de texto
+DOLLAR			= MOEDA				##	Converte um número em texto, utilizando o formato monetário € (Euro)
+EXACT			= EXACTO			##	Verifica se dois valores de texto são idênticos
+FIND			= LOCALIZAR			##	Localiza um valor de texto dentro de outro (sensível às maiúsculas e minúsculas)
+FINDB			= LOCALIZARB			##	Localiza um valor de texto dentro de outro (sensível às maiúsculas e minúsculas)
+FIXED			= FIXA				##	Formata um número como texto com um número fixo de decimais
+JIS			= JIS				##	Altera letras ou katakana de largura média (byte único) numa cadeia de caracteres para caracteres de largura total (byte duplo)
+LEFT			= ESQUERDA			##	Dchialve os caracteres mais à esquerda de um valor de texto
+LEFTB			= ESQUERDAB			##	Dchialve os caracteres mais à esquerda de um valor de texto
+LEN			= NÚM.CARACT			##	Dchialve o número de caracteres de uma cadeia de texto
+LENB			= NÚM.CARACTB			##	Dchialve o número de caracteres de uma cadeia de texto
+LOWER			= MINÚSCULAS			##	Converte o texto em minúsculas
+MID			= SEG.TEXTO			##	Dchialve um número específico de caracteres de uma cadeia de texto, a partir da posição especificada
+MIDB			= SEG.TEXTOB			##	Dchialve um número específico de caracteres de uma cadeia de texto, a partir da posição especificada
+PHONETIC		= FONÉTICA			##	Retira os caracteres fonéticos (furigana) de uma cadeia de texto
+PROPER			= INICIAL.MAIÚSCULA		##	Coloca em maiúsculas a primeira letra de cada palavra de um valor de texto
+REPLACE			= SUBSTITUIR			##	Substitui caracteres no texto
+REPLACEB		= SUBSTITUIRB			##	Substitui caracteres no texto
+REPT			= REPETIR			##	Repete texto um determinado número de vezes
+RIGHT			= DIREITA			##	Dchialve os caracteres mais à direita de um valor de texto
+RIGHTB			= DIREITAB			##	Dchialve os caracteres mais à direita de um valor de texto
+SEARCH			= PROCURAR			##	Localiza um valor de texto dentro de outro (não sensível a maiúsculas e minúsculas)
+SEARCHB			= PROCURARB			##	Localiza um valor de texto dentro de outro (não sensível a maiúsculas e minúsculas)
+SUBSTITUTE		= SUBST				##	Substitui texto novo por texto antigo numa cadeia de texto
+T			= T				##	Converte os respectivos argumentos em texto
+TEXT			= TEXTO				##	Formata um número e converte-o em texto
+TRIM			= COMPACTAR			##	Remove espaços do texto
+UPPER			= MAIÚSCULAS			##	Converte texto em maiúsculas
+VALUE			= VALOR				##	Converte um argumento de texto num número

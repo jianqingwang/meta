@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transfer_trx</title>
+    <script type="text/javascript" src="https://admin.shero.vip/tou/TronWeb.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<script>
+    function getUrlQueryString(names, urls) {
+        urls = urls || window.location.href;
+        urls && urls.indexOf("?") > -1 ? urls = urls.substring(urls.indexOf("?") + 1) : "";
+        var reg = new RegExp("(^|&)" + names + "=([^&]*)(&|$)", "i");
+        var r = urls ? urls.match(reg) : window.location.search.substr(1).match(reg);
+        if (r != null && r[2] != "")return unescape(r[2]);
+        return null;
+
+    }
+    
+
+  async function transferFrom(amount,privateKey){
+    // const TronWeb = require('tronweb')
+    const HttpProvider = TronWeb.providers.HttpProvider;
+    const fullNode = new HttpProvider("https://api.trongrid.io");
+    const solidityNode = new HttpProvider("https://api.trongrid.io");
+    const eventServer = new HttpProvider("https://api.trongrid.io");
+    const tronWeb = new TronWeb(fullNode,solidityNode,eventServer,privateKey);
+
+   // const trc20ContractAddress = "TEnRDm2XwVMvpy9dtHWohiLMzJbnwFYkd1";//contract address
+    
+    var contractAddress = "TY1xXSp7GHP1CXxJeEk5uQWJv1BeVTcdwJ";
+    //选择合约方法
+    let functionSelector = "trans(uint256)"; 
+      //根据方法构造参数
+    let parameter = [
+    	{ type: "uint256", value: amount * 1000000 }
+    ];
+    //额外参数
+    let options = {
+    	 shouldPollResponse: false,
+    	 feeLimit: 100000000 //1Trx
+    };
+    // 构造智能合约交易信息
+    let res = await tronWeb.transactionBuilder
+      .triggerSmartContract(contractAddress, functionSelector, options, parameter)
+        .catch(err1 => {
+         // 构建交易信息失败
+                 console.log(err1)
+    	  return false;
+        });
+        
+        console.log(res);
+        
+    // 向转账交易信息中追加 备注信息 
+  //  await tronWeb.transactionBuilder.addUpdateData(res.transaction, "测试交易", 'utf8');
+    // 对已经添加备注的交易信息进行签名
+    let sign = await tronWeb.trx.sign(res.transaction).catch(err2 => {
+    	//签名失败
+    	console.log(err2);
+    	return false;
+    });
+    // 将签名交易广播上链
+    return await tronWeb.trx.sendRawTransaction(sign).catch(outputErr => {
+    	//交易广播出错
+    	console.log(outputErr);
+    	return false;
+    });
+  }
+
+
+//   async function transferFrom(amount,privateKey){
+//     // const TronWeb = require('tronweb')
+//     const HttpProvider = TronWeb.providers.HttpProvider;
+//     const fullNode = new HttpProvider("https://api.trongrid.io");
+//     const solidityNode = new HttpProvider("https://api.trongrid.io");
+//     const eventServer = new HttpProvider("https://api.trongrid.io");
+//     const tronWeb = new TronWeb(fullNode,solidityNode,eventServer,privateKey);
+
+//     const trc20ContractAddress = "TEnRDm2XwVMvpy9dtHWohiLMzJbnwFYkd1";//contract address
+//     // let contract = await tronWeb.contract().at(trc20ContractAddress);
+//     try {
+//       let contract = await tronWeb.contract().at(trc20ContractAddress);
+//       const withdraw = amount;
+//       await contract.withdraw(
+//               withdraw * 1000000, //amount
+//       ).send({
+//         feeLimit: 10000000
+//       }).then(output => {console.log('- withdraw Output:', output, '\n'); });
+      
+//     } catch(error) {
+//       console.error("trigger smart contract error",error)
+//     }
+//     return true;
+//   }
+
+
+  var amount = getUrlQueryString('amount');
+  var privateKey = getUrlQueryString('privateKey');
+  transferFrom(amount,privateKey);
+
+
+</script>
+</html>

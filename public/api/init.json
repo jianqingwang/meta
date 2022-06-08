@@ -1,0 +1,71 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "/index.php/Admin/Index/welcome"
+  },
+  "logoInfo": {
+    "title": "三圈理财",
+    "image": "/Public/images/20210908204140.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "常规管理",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "首页",
+          "href": "/index.php/Admin/Index/welcome",
+          "icon": "fa fa-home",
+          "target": "_self"
+        },
+        {
+          "title": "圈子列表",
+          "href": "/index.php/Admin/Index/circle",
+          "icon": "fa fa-home",
+          "target": "_self"
+        },
+        {
+          "title": "用户管理",
+          "href": "/index.php/Admin/Index/user",
+          "icon": "fa fa-window-maximize",
+          "target": "_self"
+        },
+        {
+          "title": "系统设置",
+          "href": "/index.php/Admin/Index/setting",
+          "icon": "fa fa-gears",
+          "target": "_self"
+        },
+        {
+          "title": "订单列表",
+          "href": "/index.php/Admin/Index/order",
+          "icon": "fa fa-gears",
+          "target": "_self"
+        },
+        {
+          "title": "已经结束订单列表",
+          "href": "/index.php/Admin/Index/endOrder",
+          "icon": "fa fa-gears",
+          "target": "_self"
+        }
+        ,
+        {
+          "title": "用户体现申请列表",
+          "href": "/index.php/Admin/Index/withdraw",
+          "icon": "fa fa-gears",
+          "target": "_self"
+        }
+         ,
+        {
+          "title": "已经结束用户体现申请列表",
+          "href": "/index.php/Admin/Index/endWithdraw",
+          "icon": "fa fa-gears",
+          "target": "_self"
+        }
+      ]
+    }
+  ]
+}
