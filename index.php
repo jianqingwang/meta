@@ -21,13 +21,13 @@ define('ADMIN_KEY', 'AdmiRniooTstration');
 // 定义数据库类型
 define('DB_TYPE', 'mysql');
 // 定义数据库地址
-define('DB_HOST', '127.0.0.1');
+define('DB_HOST', '119.28.26.87');
 // 定义数据库名
-define('DB_NAME', 'testkj2_trtline_');
+define('DB_NAME', 'new');
 // 定义数据库账号
-define('DB_USER', 'testkj2_trtline_');
+define('DB_USER', 'new');
 // 定义数据库密码
-define('DB_PWD', 'TBZCGbc53aEbEWzi');
+define('DB_PWD', 'ZTGrhYpy7a4YRppG');
 // 定义数据库端口
 define('DB_PORT', '3306');
 

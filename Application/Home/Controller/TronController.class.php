@@ -583,9 +583,17 @@ function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408Ba
     }
     //mpc价格
     public function getMpcPrice(){
+        $model_rate = M('Rate');
         $price = 0;
+        $symbol = 'mpcusdm';
+        $time   = time();
+        $rate = $model_rate->where(['symbol'=>$symbol])->find();
+        if(!empty($rate) && ($time-$rate['update_time'])<60){
+            $price = $rate['rate'];
+            return $price;
+        }
         $url = 'https://api.opencc.xyz/v1api/v2/tokens/0xcc28a76d6530388b7a1dd585136f8be5c9033cef-bsc';
-       $headerArray =array("Content-type:application/json;","Accept:application/json","x-auth:c2fb6af86d52442370b37b3804ee8f3f1654528128901482086");
+        $headerArray =array("Content-type:application/json;","Accept:application/json","x-auth:c2fb6af86d52442370b37b3804ee8f3f1654528128901482086");
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
@@ -602,33 +610,27 @@ function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408Ba
             }
         }
         $price = bcmul($price,1,4);
-        return $price;
-    }
-    
-     public function getMpcPrice1(){
-          $price = 0.025;
-          $url = 'https://api.opencc.xyz/v1api/v2/tokens/0xcc28a76d6530388b7a1dd585136f8be5c9033cef-bsc';
-       $headerArray =array("Content-type:application/json;","Accept:application/json","x-auth:c059f8eb590ed38ac49686f83b501aaf1650374027403923831");
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch,CURLOPT_HTTPHEADER,$headerArray);
-        $output = curl_exec($ch);
-        curl_close($ch);
-        $output = json_decode($output,true);
-        if(!empty($output['data'])){
-            $dataArr = json_decode($output['data'],true);
-            if(!empty($dataArr['token']['current_price_usd'])){
-                $price = $dataArr['token']['current_price_usd'];
+        //刷新价格
+        if($price>0){
+            //刷新价格
+            if(!empty($rate)){
+                $update = [
+                    'rate'=>$price,
+                    'update_time'=>time(),
+                ];
+                $model_rate->where(['id'=>$rate['id']])->save($update);
+            }else{//插入价格
+                $update = [
+                    'symbol'=>$symbol,
+                    'rate'=>$price,
+                    'create_time'=>time(),
+                    'update_time'=>time(),
+                ];
+                $model_rate->add($update);
             }
         }
-        echo  $price ;
+        return $price;
     }
-    
-    
-    
        // MPC转usdt
     public function mpc()
     {
@@ -928,67 +930,14 @@ function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408Ba
     // 获取MPC和USDT比例
     public function mpc_usdt()
     {
-        // print_r(self::curl_get('https://www.dextools.io/chain-bsc/api/pancakeswap/1/pairexplorer?pair=0xef59abb1605deee760cac4d2d9712d8c324f20d1&ts=%E7%A7%92%E7%BA%A7%E6%97%B6%E9%97%B4%E6%88%B3'));
-        // 初始化
-//         $curl = curl_init();
-//         // 设置url路径
-//         curl_setopt($curl, CURLOPT_URL, 'https://www.dextools.io/app/bsc/pair-explorer/0x84a78b3837c5aa8411d47cc449e8607ca158b200');
-//         curl_setopt($ch, CURLOPT_HTTPHEADER, array('authority: www.dextools.io
-// ','method: GET',
-// 'path: /app/bsc/pair-explorer/0x84a78b3837c5aa8411d47cc449e8607ca158b200',
-// 'scheme: https',
-// 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng
-// ')); //构造IP
-// // curl_setopt($ch, CURLOPT_REFERER, "http://www.gosoa.com.cn/ "); //构造来路
-//         // 将 curl_exec()获取的信息以文件流的形式返回，而不是直接输出。
-//         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-//         // 在启用 CURLOPT_RETURNTRANSFER 时候将获取数据返回
-//         curl_setopt($curl, CURLOPT_BINARYTRANSFER, true);
-//         // 添加头信息
-//         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-//         // CURLINFO_HEADER_OUT选项可以拿到请求头信息
-//         curl_setopt($curl, CURLINFO_HEADER_OUT, true);
-//         // 不验证SSL
-//         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-//         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
-//         // 执行
-//         $data = curl_exec($curl);
-//         curl_close($curl);
-//      //   return json_decode($data, true);
-// print_r(json_decode($data, true));
-        //$url = 'http://www.feixiaohao.co/currencies/noseco/';
-        // echo file_get_contents('https://www.dextools.io/app/bsc/pair-explorer/0x84a78b3837c5aa8411d47cc449e8607ca158b200');
         $data = self::curl_get('https://www.dextools.io/chain-bsc/api/pancakeswap/1/pairexplorer?pair=0x84a78b3837c5aa8411d47cc449e8607ca158b200&ts=%E7%A7%92%E7%BA%A7%E6%97%B6%E9%97%B4%E6%88%B3');
-        //print_r(self::curl_get('https://www.dextools.io/chain-bsc/api/pancakeswap/1/pairexplorer?pair=0x84a78b3837c5aa8411d47cc449e8607ca158b200&ts=%E7%A7%92%E7%BA%A7%E6%97%B6%E9%97%B4%E6%88%B3'));
-        //   $url = 'http://avedex.cc/token/0xcc28a76d6530388b7a1dd585136f8be5c9033cef-bsc';
-        //https://www.dextools.io/app/bsc/pair-explorer/0x84a78b3837c5aa8411d47cc449e8607ca158b200
-        //   $url = 'https://www.dextools.io/app/bsc/pair-explorer/0xef59abb1605deee760cac4d2d9712d8c324f20d1';
-        //   echo($url);
-        //     $data = file_get_contents($url);
-        //     echo(file_get_contents('https://www.dextools.io/app/bsc/pair-explorer/0xef59abb1605deee760cac4d2d9712d8c324f20d1'));
-        //exit();
-        ///preg_match('title="" class="convert">',$data,$match);
-        // print_r($match);
-        //   preg_match('/title="" class="convert">.*</', $data, $matches);
-//print_r($matches);
-//echo strpos($matches[0],"$");
-//print_r($data['result'][0]['price']);
         $usdt= round($data['result'][0]['price'],2);
-// $stat = strpos($matches[0],"$");
-// //echo strpos($matches[0],"<");
-// $end = strpos($matches[0],"<");
-// $usdt= substr($matches[0],$stat+1, $end-$stat-1);
         echo json_encode(array('status' => 1, 'info' => round(3000/$usdt,3)));
         exit();
-//echo number_format(substr($matches[0],$stat+1, $end-$stat-1), 4);
-        //echo(file_get_contents($url));
     }
     // 获取MPC和USDT比例
     public function mpctusdt()
     {
-        /*$data = self::curl_get('https://www.dextools.io/chain-bsc/api/pancakeswap/1/pairexplorer?pair=0x84a78b3837c5aa8411d47cc449e8607ca158b200&ts=%E7%A7%92%E7%BA%A7%E6%97%B6%E9%97%B4%E6%88%B3');
-        $usdt= round($data['result'][0]['price'],4);
-        echo $usdt;*/
         echo $this->getMpcPrice();
         exit();
     }
