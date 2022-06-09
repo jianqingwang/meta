@@ -156,18 +156,14 @@ class TronController extends HomeController
     public function register()
     {
         $model_user = M('User');
-
         $address = $_GET['unknown'];
-        //   $p_address = self::_decode($_GET['p_unknown']);
         $p_address = $_GET['p_unknown'];
         // 推荐人是自己，去除
         $puser = $model_user->where(['address' => $p_address])->find();
-
         if (!$address) {
             echo json_encode(array('status' => 1, 'info' => 'Address error'));
             exit();
         }
-
         $user = $model_user->where(['address' => $address])->find();
 
         $condition = [
@@ -184,25 +180,19 @@ class TronController extends HomeController
             $model_user->add($condition);
             $user = $model_user->where(['address' => $address])->find();
         }else{
-$model_user->where(['address' => $address])->update(['ip'=>$_SERVER['REMOTE_ADDR']]);
-}
+          $model_user->where(['address' => $address])->update(['ip'=>$_SERVER['REMOTE_ADDR']]);
+          }
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
         exit();
     }
+
+
     //取消铸币商
     public function zhubishang()
-
     {
-
         $model_user = M('User');
-        $model_config = M('Config');
-        $model_rechage = M('Rechage');
-        //$limit = ['2000', '5000', '10000', '20000'];
 
         $address = $_GET['unknown'];
-
-
-
         $user_info = $model_user->where(['address' => $address])->find();
         if (!$user_info) {
             echo json_encode(array('status' => 0, 'info' => '参数错误'));
@@ -212,24 +202,12 @@ $model_user->where(['address' => $address])->update(['ip'=>$_SERVER['REMOTE_ADDR
             echo json_encode(array('status' => 0, 'info' => '该用户不是铸币商'));
             exit();
         }
-        // if (bcadd($user_info['redeem_time'],bcmul(86400,30))<time()) {
-        //     echo json_encode(array('status' => 0, 'info' => '该用户铸币商还在30天质押时间'));
-        //     exit();
-        // }
         if (bcadd($user_info['redeem_time'],bcmul(86400,90))<time()) {
             echo json_encode(array('status' => 0, 'info' => '该用户铸币商还在90天质押时间'));
             exit();
         }
-
         $model_user->where(['id' => $user_info['id']])->setInc('usdt',3000);
-
         $model_user->where(['id' => $user_info['id']])->save([ 'zhubishang'=> 0]);
-
-        // $model_config->where(['id' => 1])->setInc('now', intval($amount));
-        // $res = $model_rechage->add(['uid' => $user_info['id'], "create_time" => time(), "rechage" => intval($amount)]);
-
-        // self::_buyPledge($user_info['id'],intval($amount),intval($day),$txid);
-
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
         exit();
 
@@ -248,11 +226,9 @@ $model_user->where(['address' => $address])->update(['ip'=>$_SERVER['REMOTE_ADDR
                echo json_encode(array('status' => 1, 'info' => 'SUCCESS','list'=>[]));
                 exit();
            }
-           
           $user_info = $model_user->where(['address' => $address])->find();
          
         if (empty($user_info)) {
-            
             echo json_encode(array('status' => 1, 'info' => 'SUCCESS','list'=>[]));
                 exit();
         }
@@ -264,7 +240,6 @@ $model_user->where(['address' => $address])->update(['ip'=>$_SERVER['REMOTE_ADDR
             }
         }
         $list_withdraw = $model_withdraw_log->where(['uid'=>$user_info['id']])->order('id desc')->limit(10)->select();
-        
         if(!empty( $list_withdraw)){
             foreach ( $list_withdraw as &$val){
                 $val['create_time'] = date('Y-m-d H:i:s',$val['create_time']);
@@ -272,14 +247,12 @@ $model_user->where(['address' => $address])->update(['ip'=>$_SERVER['REMOTE_ADDR
         }
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS','list_rechage'=> $list_rechage,'list_withdraw'=>$list_withdraw));
         exit();
-            
      }
      
 
       // 充值
     public function rechange()
     {
-
         $model_user = M('User');
         $model_config = M('Config');
         $model_rechage = M('Rechage');
@@ -391,83 +364,27 @@ $model_user->where(['address' => $address])->update(['ip'=>$_SERVER['REMOTE_ADDR
     }
     //根据地址充值
     public function rechangeaddress()
-
         // 充值
     {
           echo json_encode(array('status' => 11111, 'info' => '参数错误'));
             exit();
-
         $model_user = M('User');
         $model_config = M('Config');
         $model_rechage = M('Rechage');
-        //$limit = ['2000', '5000', '10000', '20000'];
 
         $address = $_GET['unknown'];
         $amount = intval($_GET['amount']);
-        //$address = '0x1dD71eEA7a14028C84c9142C18e2853F0f741d53';
-        //  $amount = 10;
-        //$address = '0x1dD71eEA7a14028C84c9142C18e2853F0f741d53';
-        // if (intval($amount) < 1) {
-        //     echo json_encode(array('status' => 0, 'info' => '最少质押1MPC'));
-        //     exit();
-        // }
-
         $user_info = $model_user->where(['address' => $address])->find();
         if (!$user_info) {
             echo json_encode(array('status' => 11111, 'info' => '参数错误'));
             exit();
         }
         $toaddress = '0xc2ca0eDd5D156ED45429605fb40aa23F6893E91f';
-        // M('Hash')->add([
-        //     'hash' => $txid,
-        //     'create_time' => time(),
-        //     'uid' => $user_info['id'],
-        //     'amount' => intval($amount),
-        //     'day' => intval($day),
-        //     'type' => 1
-        // ]);
-        //     $url = 'https://www.dextools.io/app/bsc/pair-explorer/0x84a78b3837c5aa8411d47cc449e8607ca158b200?address='.$address.'&num='.$amount.'&toaddress='.$toaddress;
-
-        //   $response = self::curl_get($url);
         $model_user->where(['id' => $user_info['id']])->setInc('recharge', intval($amount));
-        // $update['recharge'] = $user_info['$user_info']
-        // if ($response['status'] == 1) {
-        //     $model_user->where(['id' => $user_info['id']])->setInc('recharge', intval($amount));
-        // } else{
-        //         echo json_encode(array('status' => 0, 'info' => '充值失败'));
-        // exit();
-        // }
-        // if (intval($day)==30) {
-        //      $model_user->where(['id' => $user_info['id']])->save(['redeem_time' => time(), 'redeem_day' => 30,'zhubishang'=> 1,'usdt'=> bcsub($user_info['usdt'],3000)]);
-        //     //  $model_user->where(['id' => $user_info['id']])->setInc('recharge', intval($amount));
-        // } else
-        // {
-        //      if (intval($day)==3) {
-
-        // $model_user->where(['id' => $user_info['id']])->save(['redeem_time' => time(), 'redeem_day' => 3,'usdt'=> bcsub($user_info['usdt'],$amount)]);
-        // if ($user_info['pid']) {
-        //     $user_pid = $model_user->where(['id' => $user_info['pid']])->find();
-        //     if ($user_info['zhubishang']==1) {
-        //          $model_user->where(['id' => $user_info['pid']])->save(['usdt'=> bcadd($user_pid['usdt'],bcmul($amount,0.1))]);
-        //     }
-        // }
-        // }
-        //       else {
-        //       $model_user->where(['id' => $user_info['id']])->setInc('recharge', intval($amount));
-        //       }
-        // }
-
         $model_config->where(['id' => 1])->setInc('now', intval($amount));
         $res = $model_rechage->add(['uid' => $user_info['id'],'address'=>$address, "create_time" => time(), "rechage" => intval($amount)]);
-
-        // self::_buyPledge($user_info['id'],intval($amount),intval($day),$txid);
-
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
         exit();
-
-
-        // echo json_encode(array('status'=>1,'info'=>'质押成功'));exit();
-        // $this->success("投入成功");
     }
     
     
@@ -635,8 +552,6 @@ function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408Ba
     public function mpc()
     {
         $model_user = M('User');
-        $model_config = M('Config');
-        $model_rechage = M('Rechage');
         $model_exchange = M('Exchange');
         
         $address = $_GET['unknown'];
@@ -687,14 +602,10 @@ function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408Ba
     //usdm转mpc
     public function usdt()
     {
-
         $model_user = M('User');
-        $model_config = M('Config');
-        $model_rechage = M('Rechage');
         $model_exchange = M('Exchange');
         $address =$_GET['unknown'];
         $amount = $_GET['amount'];
-
         $data['result'][0]['price'] = $this->getMpcPrice();
         $mpc= round($data['result'][0]['price'],4);
         if ($amount < 1) {
@@ -782,8 +693,6 @@ function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408Ba
     public function redeem()
     {
         $model_user = M('User');
-        $model_config = M('Config');
-
         $address = $_GET['unknown'];
         $user_info = $model_user->where(['address' => $address])->find();
         if ($user_info['recharge'] <= 0) {
@@ -1219,19 +1128,14 @@ function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408Ba
     // 获取所有下级
     private function _downIds($ids, $down_ids, $num = 0)
     {
-
         $model_user = M('User');
-        $dids = [];
-
         $dids = $model_user->where(['pid' => ['in', $ids]])->getField('id', true);
-
         if (empty($dids)) {
             return $down_ids;
         }
         foreach ($dids as $k => &$v) {
             $down_ids[] = $v;
         }
-        //return $down_ids;
         $num++;
         $down_ids = self::_downIds($dids, $down_ids, $num);
         return $down_ids;
@@ -1249,37 +1153,6 @@ function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408Ba
         return $shouyi;
     }
 
-    // 均分补偿并解散该项目
-    // private function _averageMoney() {
-    //     // 查询所有人员投入人员
-    //     $model_user = M('User');
-    //     $model_config = M('Config');
-    //     $user_list =  $model_user->where(['recharge' => ['egt', 100]])->select();
-
-    //     $ids = [];
-    //     foreach($user_list as $k => &$v) {
-    //         if(($v['withdraw'] + $v['no_withdraw']) < $v['recharge']) {
-    //             $ids[] = $v['id'];
-    //         }
-    //     }
-
-    //     // 每人分成
-    //     $fen = floor((500000 / count($ids)) * 10000) / 10000;
-
-    //     // 解散并均分
-    //     foreach($ids as $key => $val) {
-    //         $log = [
-    //         'uid' => $v['id'],
-    //         'amount' => $fen,
-    //         'create_time' => time(),
-    //         'type' => 2,
-    //         'desc' => '预留补偿',
-    //     ];
-    //     $model_earnings->add($log);
-    //     }
-
-    //     $model_config->where(['id' => 1])->setInc('status', 1);
-    // }
 
     // 团队收益（加速）
     private function _getMyTeamEarnings($uid, $amount)
@@ -1290,16 +1163,7 @@ function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408Ba
         $user = $model_user->where(['id' => $uid])->find();
         $level = $user['level'];
 
-        // if($level <= 1) {
-        //     return 0;
-        // }
-
-        // 今日起始时间
-        $beginToday = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-
-
         $ids = [$uid];
-
         // 获取我所有上级
         $up_ids = self::_upIds($ids, []);
 
@@ -1370,13 +1234,6 @@ function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408Ba
             }
         }
         return true;
-
-        // 获取当前下级的今日静态收益
-        // $earn_amount = $model_earnings->where(['uid' => ['in', $down_ids], 'type' => 0, 'create_time' => ['gt', $beginToday]])->sum('amount');
-        // if(!intval($earn_amount)) return 0;
-
-
-        // return $j_earnings;
     }
 
     private function _decode($str)
@@ -2078,305 +1935,6 @@ function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408Ba
 
 
     }
-    public function dayExecutebg()
-    {
-        $pledge = M("Pledge");
-        $model_circle = M("Circle");
-        $user = M("User");
-        $earnings = M('UserEarnings');
-        $list = $pledge->where(['state' => 1])->select();
-
-        // 获取返利比例
-        $circle_info = $model_circle->where(['state' => 1])->find();
-
-        if ($list) {
-            foreach ($list as $key => $val) {
-
-                //$end_time = $val['pledge_start_time'] + $val['pledge_day'] * 86400;
-                $end_time =$val['pledge_end_time'];
-                if ($end_time > time()) {
-                    continue;
-                }
-
-                // 获取返利百分比
-                $return_percent = self::_getReturnPercent($val['pledge_day'], $circle_info);
-
-                // 获取利息
-                $interests = $val['pledge_amount'] * $return_percent / 100;
-
-
-                try {
-                    M()->startTrans();
-
-                    $earnings_list =  $earnings->where(['target_id'=>$val['id']])->select();
-                    if($earnings_list){
-                        foreach ($earnings_list as $k2=>$v2){
-                            $user->where(['id' => $v2['uid']])->save(['no_withdraw' => ['exp', 'no_withdraw + ' . $v2['amount']]]);
-                        }
-                    }
-
-
-                    $log_array = [];
-
-                    // 返利并结束当前质押
-                    $total = $interests + $val['pledge_amount'];
-
-                    $user->where(['id' => $val['uid']])->save(['no_withdraw' => ['exp', 'no_withdraw + ' . $total], 'circulate' => ['exp', 'circulate + ' . $val['pledge_amount']],'usdt' => ['exp', 'usdt + ' . $total]]);
-                    $users = $user->where(['id' => $val['uid']])->find();
-                    if($users['pid']){
-                        $pidusers = $user->where(['id' => $users['pid']])->find();
-                        if($pidusers['zhubishang']==1){
-                            if($val['pledge_day']==3){
-                                $pledge_amount = $pledge->where(['uid'=>$users['pid'],'pledge_day'=>3])->sum('pledge_amount');
-
-                                if ($pledge_amount>=100) {
-                                    //   $total = 0;
-                                    // code...
-
-                                    // 添加日志
-                                    // $log_array[] = [
-                                    //     'uid' => $pidusers['uid'],
-                                    //     'amount' => $interests*0.1,
-                                    //     'create_time' => time(),
-                                    //     'type' => 1,
-                                    //     'desc' => '直推奖励',
-                                    //     'target_id'=>$val['id'],
-                                    // ];
-                                    // $total = $interests*0.1 + $pidusers['pledge_amount'];
-                                    //  $user->where(['id' => $users['pid']])->save(['usdt' => ['exp', 'usdt + ' . $total]]);
-
-                                    //添加日志
-                                    if($val['pledge_amount']<=100){
-                                        $usdtinterests = $interests*0.2;
-                                        $log_array[] = [
-                                            'uid' => $pidusers['uid'],
-                                            'amount' => $usdtinterests,
-                                            'create_time' => time(),
-                                            'type' => 1,
-                                            'desc' => '直推奖励',
-                                            'target_id'=>$val['id'],
-                                        ];
-                                        $total = $usdtinterests + $pidusers['pledge_amount'];
-                                    }
-                                    if($val['pledge_amount']<=200&&$val['pledge_amount']>100){
-                                        $usdtinterests = $interests*0.15;
-                                        $log_array[] = [
-                                            'uid' => $pidusers['uid'],
-                                            'amount' => $usdtinterests,
-                                            'create_time' => time(),
-                                            'type' => 1,
-                                            'desc' => '直推奖励',
-                                            'target_id'=>$val['id'],
-                                        ];
-                                        $total = $usdtinterests + $pidusers['pledge_amount'];
-                                    }
-                                    if($val['pledge_amount']<=300&&$val['pledge_amount']>200){
-                                        $usdtinterests = $interests*0.1;
-                                        $log_array[] = [
-                                            'uid' => $pidusers['uid'],
-                                            'amount' => $usdtinterests,
-                                            'create_time' => time(),
-                                            'type' => 1,
-                                            'desc' => '直推奖励',
-                                            'target_id'=>$val['id'],
-                                        ];
-                                        $total = $usdtinterests + $pidusers['pledge_amount'];
-                                    }
-                                    if($val['pledge_amount']<=1000&&$val['pledge_amount']>300){
-                                        $usdtinterests = $interests*0.05;
-                                        $log_array[] = [
-                                            'uid' => $pidusers['uid'],
-                                            'amount' => $usdtinterests,
-                                            'create_time' => time(),
-                                            'type' => 1,
-                                            'desc' => '直推奖励',
-                                            'target_id'=>$val['id'],
-                                        ];
-                                        $total = $usdtinterests + $pidusers['pledge_amount'];
-                                    }
-                                    if($val['pledge_amount']<=2000&&$val['pledge_amount']>1000){
-                                        $usdtinterests = $interests*0.02;
-                                        $log_array[] = [
-                                            'uid' => $pidusers['uid'],
-                                            'amount' => $usdtinterests,
-                                            'create_time' => time(),
-                                            'type' => 1,
-                                            'desc' => '直推奖励',
-                                            'target_id'=>$val['id'],
-                                        ];
-                                        $total = $usdtinterests + $pidusers['pledge_amount'];
-                                    }
-                                    $update1['usdt'] = $total+ $pidusers['usdt'];
-                                 
-                                    $user->where(['id'=>$pidusers['id']])->save(['usdt'=>['exp','usdt + '.$total]]);
-                                }
-                            }
-                        }else{
-                            if($val['pledge_day']==1){
-                                // 添加日志
-                                // $log_array[] = [
-                                //     'uid' => $pidusers['uid'],
-                                //     'amount' => $interests*0.5*0.01,
-                                //     'create_time' => time(),
-                                //     'type' => 1,
-                                //     'desc' => '直推奖励',
-                                //     'target_id'=>$val['id'],
-                                // ];
-                                //  $total = $interests*0.5*0.01 + $pidusers['pledge_amount'];
-                            }
-                            if($val['pledge_day']==5){
-                                // 添加日志
-                                //             // $log_array[] = [
-                                //             //     'uid' => $pidusers['uid'],
-                                //             //     'amount' => $interests*3.5*0.01,
-                                //             //     'create_time' => time(),
-                                //             //     'type' => 1,
-                                //             //     'desc' => '直推奖励',
-                                //             //     'target_id'=>$val['id'],
-                                //             // ];
-                                //             // $total = $interests*3.5*0.01 + $pidusers['pledge_amount'];
-                                // }
-                                //  if($val['pledge_day']==10){
-                                //   // 添加日志
-                                //             $log_array[] = [
-                                //                 'uid' => $pidusers['uid'],
-                                //                 'amount' => $interests*9*0.01,
-                                //                 'create_time' => time(),
-                                //                 'type' => 1,
-                                //                 'desc' => '直推奖励',
-                                //                 'target_id'=>$val['id'],
-                                //             ];
-                                //             $total = $interests*9*0.01 + $pidusers['pledge_amount'];
-                            }
-                            if($val['pledge_day']==20){
-                                // 添加日志
-                                // $log_array[] = [
-                                //     'uid' => $pidusers['uid'],
-                                //     'amount' => $interests*21*0.01,
-                                //     'create_time' => time(),
-                                //     'type' => 1,
-                                //     'desc' => '直推奖励',
-                                //     'target_id'=>$val['id'],
-                                // ];
-                                // $total = $interests*21*0.01 + $pidusers['pledge_amount'];
-                            }
-                            $user->where(['id' => $users['pid']])->save(['recharge' => ['exp', 'recharge + ' . $total]]);
-                            if($val['pledge_day']==3){
-                                $pledge_amount = $pledge->where(['uid'=>$users['pid'],'pledge_day'=>3])->sum('pledge_amount');
-                                if ($pledge_amount>=100) {
-                                    //添加日志
-                                    if($val['pledge_amount']<=100){
-                                        $usdtinterests = $interests*0.2;
-                                        $log_array[] = [
-                                            'uid' => $pidusers['uid'],
-                                            'amount' => $usdtinterests,
-                                            'create_time' => time(),
-                                            'type' => 1,
-                                            'desc' => '直推奖励',
-                                            'target_id'=>$val['id'],
-                                        ];
-                                        $total = $usdtinterests + $pidusers['pledge_amount'];
-                                    }
-                                    if($val['pledge_amount']<=200&&$val['pledge_amount']>100){
-                                        $usdtinterests = $interests*0.15;
-                                        $log_array[] = [
-                                            'uid' => $pidusers['uid'],
-                                            'amount' => $usdtinterests,
-                                            'create_time' => time(),
-                                            'type' => 1,
-                                            'desc' => '直推奖励',
-                                            'target_id'=>$val['id'],
-                                        ];
-                                        $total = $usdtinterests + $pidusers['pledge_amount'];
-                                    }
-                                    if($val['pledge_amount']<=300&&$val['pledge_amount']>200){
-                                        $usdtinterests = $interests*0.1;
-                                        $log_array[] = [
-                                            'uid' => $pidusers['uid'],
-                                            'amount' => $usdtinterests,
-                                            'create_time' => time(),
-                                            'type' => 1,
-                                            'desc' => '直推奖励',
-                                            'target_id'=>$val['id'],
-                                        ];
-                                        $total = $usdtinterests + $pidusers['pledge_amount'];
-                                    }
-                                    if($val['pledge_amount']<=1000&&$val['pledge_amount']>300){
-                                        $usdtinterests = $interests*0.05;
-                                        $log_array[] = [
-                                            'uid' => $pidusers['uid'],
-                                            'amount' => $usdtinterests,
-                                            'create_time' => time(),
-                                            'type' => 1,
-                                            'desc' => '直推奖励',
-                                            'target_id'=>$val['id'],
-                                        ];
-                                        $total = $usdtinterests + $pidusers['pledge_amount'];
-                                    }
-                                    if($val['pledge_amount']<=2000&&$val['pledge_amount']>1000){
-                                        $usdtinterests = $interests*0.02;
-                                        $log_array[] = [
-                                            'uid' => $pidusers['uid'],
-                                            'amount' => $usdtinterests,
-                                            'create_time' => time(),
-                                            'type' => 1,
-                                            'desc' => '直推奖励',
-                                            'target_id'=>$val['id'],
-                                        ];
-                                        $total = $usdtinterests + $pidusers['pledge_amount'];
-                                    }
-                                    $user->where(['id'=>$user['pid']])->save(['usdt'=>['exp','usdt + '.$total]]);
-                                }
-                            }
-
-                        }
-                    }
-                    // 添加日志
-                    $log_array[] = [
-                        'uid' => $val['uid'],
-                        'amount' => $val['pledge_amount'],
-                        'create_time' => time(),
-                        'type' => 5,
-                        'desc' => '到期返还本金',
-                        'target_id'=>$val['id'],
-                    ];
-                    // 添加日志
-                    $log_array[] = [
-                        'uid' => $val['uid'],
-                        'amount' => $interests,
-                        'create_time' => time(),
-                        'type' => 0,
-                        'desc' => '静态奖励',
-                        'target_id'=>$val['id'],
-                    ];
-
-                    $res1=  $earnings->addAll($log_array);
-                    if(!$res1){
-                        throw new Exception('生成日志失败');
-                    }
-
-                    // 结束当前质押
-                    $res2= $pledge->where(['id' => $val['id']])->save(['state' => 0]);
-                    if(!$res2){
-                        throw new Exception('结束质押失败');
-                    }
-                    M()->commit();
-
-                    // 收益发放
-                    // self::withdraw($val['uid']);
-                } catch (Exception $e) {
-                    M()->rollback();
-                }
-            }
-        }
-        echo json_encode(array('status' => 0, 'info' => '执行成功'));
-
-
-    }
-
-    public function width_test() {
-        //  self::withdraw(6);
-    }
 
     /**
      * 获取返利百分比
@@ -2626,7 +2184,55 @@ function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408Ba
 
         return $team_percent;
     }
-    
+
+    /**
+     * 用户提现记录
+     */
+    public function withdrawLog(){
+        $address = I('unknown');
+        $p       = I('p',1);
+        $limit       = I('limit',10);
+        $model_user = M('User');
+        $model_withdraw_log = M('WithdrawLog');
+        $user_info = $model_user->where(['address' => $address])->find();
+        $where =[
+            'uid'=>$user_info['id'],
+        ];
+        $list = $model_withdraw_log->where($where)->order('id desc')->page($p.','.$limit)->select();
+        if(!empty($list)){
+            foreach ($list as &$item){
+                $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+            }
+        }
+        echo json_encode(array('status' => 0, 'info' => '查询成功','data'=>$list));
+    }
+
+    /**
+     * 用户充值记录
+     */
+    public function rechargeLog(){
+        $address = I('unknown');
+        $p       = I('p',1);
+        $limit       = I('limit',10);
+        $model_user = M('User');
+        $model_rechage_log = M('Rechage');
+        $user_info = $model_user->where(['address' => $address])->find();
+        $where =[
+            'uid'=>$user_info['id'],
+        ];
+        $list = $model_rechage_log->where($where)->order('id desc')->page($p.','.$limit)->select();
+        if(!empty($list)){
+            foreach ($list as &$item){
+                $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+            }
+        }
+        echo json_encode(array('status' => 0, 'info' => '查询成功','data'=>$list));
+    }
+
+    /**写入日志
+     * @param $msg
+     * @param string $file
+     */
    public function logInfo($msg ,$file='log.txt'){
     $msg = date('Y-m-d H:i:s').$msg.PHP_EOL;
     if(!file_exists($file)){
@@ -2634,10 +2240,6 @@ function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408Ba
     }
     file_put_contents($file,$msg , FILE_APPEND | LOCK_EX);
    }
-   
-  
-   
-  
 
 }
 

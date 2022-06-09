@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62d48fc7-e337-4991-b7f6-344c716f554b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Application/Home/Controller/Tron1Controller.class.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Home/Controller/TronController-bg.class.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/Home/Controller/TronController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Home/Controller/TronController.class.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Home/Controller/TronController.class.php20220331" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nginx.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/nginx.htaccess" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/public/.htaccess" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,12 +36,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="php" value="266" />
+          <entry key="php" value="531" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PHP" value="266" />
+          <entry key="PHP" value="531" />
         </counts>
       </usages-collector>
     </session>
@@ -65,8 +60,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Application/Home/Controller/TronController.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1008">
-              <caret line="629" column="13" selection-start-line="629" selection-start-column="13" selection-end-line="629" selection-end-column="13" />
+            <state relative-caret-position="310">
+              <caret line="2222" column="34" selection-start-line="2222" selection-start-column="34" selection-end-line="2222" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -98,6 +93,9 @@
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="PhpServers">
+    <servers />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -194,19 +192,19 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1654696397719</updated>
-      <workItem from="1654696398833" duration="1511000" />
+      <workItem from="1654696398833" duration="3866000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1511000" />
+    <option name="totallyTimeSpent" value="3866000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17292225" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.29490617" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
@@ -259,8 +257,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Application/Home/Controller/TronController.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1008">
-          <caret line="629" column="13" selection-start-line="629" selection-start-column="13" selection-end-line="629" selection-end-column="13" />
+        <state relative-caret-position="310">
+          <caret line="2222" column="34" selection-start-line="2222" selection-start-column="34" selection-end-line="2222" selection-end-column="34" />
         </state>
       </provider>
     </entry>
