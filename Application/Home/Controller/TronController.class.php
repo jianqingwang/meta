@@ -2229,7 +2229,7 @@ function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408Ba
         echo json_encode(array('status' => 0, 'info' => '查询成功','data'=>$list));
     }
 
-    /**写入日志
+    /**写入日志ini
      * @param $msg
      * @param string $file
      */
