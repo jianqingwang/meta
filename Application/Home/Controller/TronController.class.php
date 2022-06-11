@@ -180,9 +180,53 @@ class TronController extends HomeController
             $model_user->add($condition);
             $user = $model_user->where(['address' => $address])->find();
         }else{
-          $model_user->where(['address' => $address])->update(['ip'=>$_SERVER['REMOTE_ADDR']]);
+          $model_user->where(['address' => $address])->save(['ip'=>$_SERVER['REMOTE_ADDR']]);
           }
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
+        exit();
+    }
+
+    /**
+     * 首页
+     */
+    public function index(){
+        $address = I('unknown');
+        if(empty($address)){
+            echo json_encode(array('status' => 1, 'info' => 'Address error'));
+            exit();
+        }
+        $modelUser = M('User');
+        $userInfo = $modelUser->where(['address' => $address])->find();
+        $modelPledge = M('Pledge');
+        $reponse['rate']    = $this->getMpcPrice();//mpc汇率
+        $reponse['pid'] = '';//上级id
+        if(empty($userInfo)){
+            $reponse['pledged'] = 0;//累计铸造
+            $reponse['pledgeding'] = 0;//正在铸造
+            $reponse['recharge'] = 0;//MPC钱包余额
+            $reponse['usdm'] = 0;//usdm余额
+            $reponse['zhubishang'] = 0;//是否是铸币商
+        }else{
+            $where = [
+                'uid'=> $userInfo['id'],
+          ];
+            $reponse['pledged'] =   $modelPledge->where($where)->sum('pledge_amount')*1;
+            $where = [
+                'uid'=> $userInfo['id'],
+                'state'=>1,
+            ];
+            $reponse['pledgeding'] =   $modelPledge->where($where)->sum('pledge_amount')*1;
+            $reponse['recharge'] = $userInfo['recharge'];//钱包余额
+            $reponse['usdm'] = $userInfo['usdt'];//usdm余额
+            $reponse['zhubishang'] = $userInfo['zhubishang'];
+            if(!empty($userInfo['pid'])){
+                $pUserInfo = $modelUser->where(['id' => $userInfo['pid']])->find();
+                if(!empty($pUserInfo)){
+                    $reponse['pid'] = $pUserInfo['address'];//上级id
+                }
+            }
+        }
+        echo json_encode(array('data'=>$reponse,'status' => 1, 'info' => 'SUCCESS'));
         exit();
     }
 
@@ -310,21 +354,18 @@ class TronController extends HomeController
 
         if (intval($day)==30) {
             $model_user->where(['id' => $user_info['id']])->save(['redeem_time' => time(), 'redeem_day' => 30,'zhubishang'=> 1,'usdt'=> bcsub($user_info['usdt'],3000)]);
-            //  $model_user->where(['id' => $user_info['id']])->setInc('recharge', intval($amount));
         } else
         {
             if (intval($day)==90) {
                 if($user_info['pid']) {
                     $pid=$model_user->where(['id' => $user_info['pid']])->find();
                     if($pid['zhubishang']==1){
-                        //             $model_user->where(['id' => $user_info['pid']])
-                        //  ->save(['usdt'=> bcadd($user_info['usdt'],bcmul(3000,0))]);
+
                     }
                 }
 
                 $model_user->where(['id' => $user_info['id']])
                     ->save(['redeem_time' => time(), 'redeem_day' => 90,'zhubishang'=> 1,'usdt'=> bcsub($user_info['usdt'],3000)]);
-                //  $model_user->where(['id' => $user_info['id']])->setInc('recharge', intval($amount));
             } else
             {
                 if (intval($day)==3) {
@@ -336,16 +377,11 @@ class TronController extends HomeController
                     }
                     $model_user->where(['id' => $user_info['id']])->save(['redeem_time' => time(), 'redeem_day' => 3,'usdt'=> bcsub($user_info['usdt'],$amount)]);
                     if ($user_info['pid']) {
-                        // $user_pid = $model_user->where(['id' => $user_info['pid']])->find();
-                        // if ($user_info['zhubishang']==1) {
-                        //      $model_user->where(['id' => $user_info['pid']])->save(['usdt'=> bcadd($user_pid['usdt'],bcmul($amount,0.1))]);
-                        // }
                     }
                 }
                 else {
                     $model_user->where(['id' => $user_info['id']])->save(['redeem_time' => time(), 'redeem_day' => $day,'recharge'=> bcsub($user_info['recharge'],$amount)]);
-                    //$model_user->where(['id' => $user_info['id']])->setInc('recharge', intval($amount));
-                }
+              }
             }
         }
 
@@ -356,11 +392,14 @@ class TronController extends HomeController
 
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
         exit();
+    }
 
-
-        // echo json_encode(array('status'=>1,'info'=>'质押成功'));exit();
-        // $this->success("投入成功");
-        //}
+    /**
+     * 获取充值地址
+     */
+    public function getRechangeAddress(){
+        echo json_encode(array('status' => 1,'address'=>'0xc2ca0eDd5D156ED45429605fb40aa23F6893E91f', 'info' => 'SUCCESS'));
+        exit();
     }
     //根据地址充值
     public function rechangeaddress()
@@ -389,28 +428,28 @@ class TronController extends HomeController
     
     
     
-        /**查余额
- * @param string $net
- * @param string $currency
- * @param string $address
- */
-function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408BaA38754f7D75e6aBc16b3250B'){
-    $url = 'https://api.duobifu.com/mpc/getBalance?net='.$net.'&currency='.$currency.'&address='.$address;
-    $ret = file_get_contents($url);
-    $retArr = json_decode(  $ret,true);
-    return  $retArr['data']['balance']*1;
-}
+     /**查余额
+     * @param string $net
+     * @param string $currency
+     * @param string $address
+     */
+    function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408BaA38754f7D75e6aBc16b3250B'){
+        $url = 'https://api.duobifu.com/mpc/getBalance?net='.$net.'&currency='.$currency.'&address='.$address;
+        $ret = file_get_contents($url);
+        $retArr = json_decode(  $ret,true);
+        return  $retArr['data']['balance']*1;
+    }
 
-/**转账
- * @param $address
- * @param $amount
- */
+    /**转账
+     * @param $address
+     * @param $amount
+     */
     function sendTransaction($address,$amount){
     $url = 'https://api.duobifu.com/mpc/sendTransaction?address='.$address.'&amount='.$amount;
     $ret = file_get_contents($url);
     $retArr = json_decode(  $ret,true);
     return $retArr['data']['txid'];
-}
+  }
 
 
     //用户提现接口
@@ -2226,6 +2265,15 @@ function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408Ba
                 $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
             }
         }
+        echo json_encode(array('status' => 0, 'info' => '查询成功','data'=>$list));
+    }
+
+    /**
+     * 用户理财计划
+     */
+    public function pledgePlan(){
+        $modelPledgePlan = M('PledgePlan');
+        $list =$modelPledgePlan->where(['status'=>1])->order('sort desc')->select();
         echo json_encode(array('status' => 0, 'info' => '查询成功','data'=>$list));
     }
 
