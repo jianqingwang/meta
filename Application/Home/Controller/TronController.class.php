@@ -2248,19 +2248,57 @@ class TronController extends HomeController
         $address = I('unknown');
         $p       = I('p',1);
         $limit       = I('limit',10);
+        $type       = I('type',1);//1充值2提现
         $model_user = M('User');
-        $model_rechage_log = M('Rechage');
+        if($type == 1){
+            $model_rechage_log = M('Rechage');
+            $user_info = $model_user->where(['address' => $address])->find();
+            $where =[
+                'uid'=>$user_info['id'],
+            ];
+            $list = $model_rechage_log->field(['id,rechage as amount,create_time'])->where($where)->order('id desc')->page($p.','.$limit)->select();
+            if(!empty($list)){
+                foreach ($list as &$item){
+                    $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+                }
+            }
+        }else{
+            $model_withdraw_log = M('WithdrawLog');
+            $user_info = $model_user->where(['address' => $address])->find();
+            $where =[
+                'uid'=>$user_info['id'],
+            ];
+            $list = $model_withdraw_log->where($where)->order('id desc')->page($p.','.$limit)->select();
+            if(!empty($list)){
+                foreach ($list as &$item){
+                    $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+                }
+            }
+        }
+
+        echo json_encode(array('status' => 0, 'info' => '查询成功','data'=>$list));
+    }
+
+    /**
+     * 兑换记录
+     */
+    public function exchange(){
+        $address = I('unknown');
+        $p       = I('p',1);
+        $limit       = I('limit',10);
+        $model_user = M('User');
+        $model_exchange = M('exchange');
         $user_info = $model_user->where(['address' => $address])->find();
         $where =[
             'uid'=>$user_info['id'],
         ];
-        $list = $model_rechage_log->where($where)->order('id desc')->page($p.','.$limit)->select();
+        $list = $model_exchange->where($where)->order('id desc')->page($p.','.$limit)->select();
         if(!empty($list)){
             foreach ($list as &$item){
                 $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
             }
         }
-        echo json_encode(array('status' => 0, 'info' => '查询成功','data'=>$list));
+        echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$list));
     }
 
     /**
@@ -2281,6 +2319,74 @@ class TronController extends HomeController
         $reponse['user_amount'] = 0;
         $reponse['user_count'] = 0;
         echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$reponse));
+    }
+
+    public function qianbao(){
+        $address = I('unknown');
+        if(empty($address)){
+            echo json_encode(array('status' => 1, 'info' => 'Address error'));
+            exit();
+        }
+        $modelUser = M('User');
+        $model_exchange = M('Exchange');
+        $model_pledge   = M('Pledge');
+        $modelWithdrawLog = M('WithdrawLog');
+        $userInfo = $modelUser->where(['address' => $address])->find();
+        $reponse['zhubishang_count'] = 0;
+        $reponse['zhubi_amount'] = 0;
+        $reponse['user_amount'] = 0;
+        $reponse['user_count'] = 0;
+        $reponse['zhubishang'] = $userInfo['zhubishang'];
+        //充值提现记录
+        $where = ['uid'=>$userInfo['id']];
+        $list = $modelWithdrawLog->where($where)->order('id desc')->limit(10)->select();
+        if(!empty($list)){
+            foreach ($list as &$item){
+                $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+            }
+        }
+        $reponse['withdraw_log'] = $list;
+        //兑换记录
+        $where = ['uid'=>$userInfo['id']];
+        $list = $model_exchange->where($where)->order('id desc')->limit(10)->select();
+        if(!empty($list)){
+            foreach ($list as &$item){
+                $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+            }
+        }
+        $reponse['exchange'] = $list;
+        //铸币记录
+        $where = ['uid'=>$userInfo['id']];
+        $list = $model_pledge->where($where)->order('id desc')->limit(10)->select();
+        if(!empty($list)){
+            foreach ($list as &$item){
+                $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+            }
+        }
+        $reponse['pledge'] = $list;
+        echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$reponse));
+    }
+
+    /**
+     * 铸币记录
+     */
+    public function pledgeLog(){
+        $address = I('unknown');
+        $p       = I('p',1);
+        $limit       = I('limit',10);
+        $model_user = M('User');
+        $modelPledge = M('Pledge');
+        $user_info = $model_user->where(['address' => $address])->find();
+        $where =[
+            'uid'=>$user_info['id'],
+        ];
+        $list = $modelPledge->where($where)->order('id desc')->page($p.','.$limit)->select();
+        if(!empty($list)){
+            foreach ($list as &$item){
+                $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+            }
+        }
+        echo json_encode(array('status' => 1, 'info' => '查询成功','data'=> $list));
     }
 
     public function zhubiPlan(){

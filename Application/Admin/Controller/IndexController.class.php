@@ -150,6 +150,48 @@ class IndexController extends BaseController
     }
 
     /**
+     * 铸币商订单
+     */
+    public function zhubishangOrder(){
+
+        if (IS_AJAX){
+            $zhubishangOrder = M("ZhubishangOrder");
+            $userModel = M("User");
+            $address = I('address');
+            $where = [];
+            if(!empty($address)){
+                $where['address'] = $address;
+            }
+            $list = $zhubishangOrder
+                ->where($where)
+                ->order('id desc')
+                ->page($_GET['page'], $_GET['limit'])
+                ->select();
+            foreach ($list as $key=>&$val){
+                $val['create_time'] = date('Y-m-d H:i:s',$val['create_time']);
+                $userInfo = $userModel->where(['id'=>$val['uid']])->find();
+                if(empty($userInfo)){
+                    continue;
+                }
+                $pUserInfo = $userModel->where(['id'=>$val['pid']])->find();
+                if(empty($pUserInfo)){
+                    continue;
+                }
+                $val['pid'] = $pUserInfo['address'];
+            }
+
+            $data = [
+                'code' => 0,
+                'data' => $list,
+                'count' => $zhubishangOrder->where($where)->count(),
+            ];
+            $this->ajaxReturn($data);die;
+        }
+        $this->display('zhubishang-order');
+    }
+
+
+    /**
      *编辑活动
      */
     public function edit()

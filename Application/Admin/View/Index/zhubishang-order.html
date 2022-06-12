@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -19,7 +19,7 @@
                 <form class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">用户姓名</label>
+                            <label class="layui-form-label">钱包地址</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="address" autocomplete="off" class="layui-input">
                             </div>
@@ -44,7 +44,7 @@
 
         table.render({
             elem: '#currentTableId',
-            url: '/index.php/Admin/Index/endOrderList',
+            url: '/index.php/Admin/Index/zhubishangOrder',
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -55,12 +55,9 @@
                 {type: "checkbox", width: 50},
                 {field: 'id', width: 80, title: 'ID', sort: true},
                 {field: 'address', width: 400, title: '用户地址'},
-                {field: 'pledge_amount', width: 150, title: '充值金额'},
+                {field: 'pid', width: 400, title: '上级钱包地址'},
+                {field: 'amount', width: 150, title: '结算金额'},
                 {field: 'create_time', width: 200, title: '创建时间', },
-                {field: 'pledge_end_time', width: 200, title: '到期时间'},
-                {field: 'static_amount', width: 150, title: '静态结算金额'},
-                {field: 'dynamic_amount', width: 150, title: '上级奖励金额'},
-                // {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
             ]],
             limits: [10, 15, 20, 25, 50, 100],
             limit: 15,

@@ -155,7 +155,7 @@
 
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功', function () {
-                window.location.href = 'https://admin.metafinancepro.cc/admin/login';
+                window.location.href = '/admin/login';
             });
         });
     });
