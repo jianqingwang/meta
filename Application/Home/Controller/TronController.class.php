@@ -294,25 +294,21 @@ class TronController extends HomeController
      }
      
 
-      // 充值
+      // 充值,申请质押
     public function rechange()
     {
         $model_user = M('User');
         $model_config = M('Config');
         $model_rechage = M('Rechage');
         $model_pledge = M('Pledge');
-        //$limit = ['2000', '5000', '10000', '20000'];
-
         $address = $_GET['unknown'];
         $amount = $_GET['amount'];
         $day= intval($_GET['day']);
         $txid = $_GET['txid'];
-        // echo $address;
         if ($amount < 1) {
-            echo json_encode(array('status' => 0, 'info' => '最少质押1MPC'));
+            echo json_encode(array('status' => 0, 'info' => '最少质押1USDM'));
             exit();
         }
-
         $user_info = $model_user->where(['address' => $address])->find();
         if (!$user_info) {
             echo json_encode(array('status' => 0, 'info' => '参数错误'));
@@ -369,7 +365,7 @@ class TronController extends HomeController
             } else
             {
                 if (intval($day)==3) {
-//'72小时只能投一次'
+                    //'72小时只能投一次'
                     $pledge=$model_pledge->where(['uid'=>$user_info['id'],'pledge_day'=>3])->order('id desc')->find();
                     if($pledge['pledge_end_time']>time()){
                         echo json_encode(array('status' => 0, 'info' => '72小时只能铸造一次'));
@@ -389,7 +385,6 @@ class TronController extends HomeController
         $res = $model_rechage->add(['uid' => $user_info['id'], "create_time" => time(), "rechage" => intval($amount)]);
 
         self::_buyPledge($user_info['id'],$amount,intval($day),$txid);
-
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
         exit();
     }
@@ -2243,7 +2238,7 @@ class TronController extends HomeController
                 $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
             }
         }
-        echo json_encode(array('status' => 0, 'info' => '查询成功','data'=>$list));
+        echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$list));
     }
 
     /**
@@ -2273,8 +2268,44 @@ class TronController extends HomeController
      */
     public function pledgePlan(){
         $modelPledgePlan = M('PledgePlan');
-        $list =$modelPledgePlan->where(['status'=>1])->order('sort desc')->select();
-        echo json_encode(array('status' => 0, 'info' => '查询成功','data'=>$list));
+        $list =$modelPledgePlan->where(['status'=>1])->order('day asc')->select();
+        echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$list));
+    }
+
+    /**
+     * 我的下级
+     */
+    public function  child(){
+        $reponse['zhubishang_count'] = 0;
+        $reponse['zhubi_amount'] = 0;
+        $reponse['user_amount'] = 0;
+        $reponse['user_count'] = 0;
+        echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$reponse));
+    }
+
+    public function zhubiPlan(){
+        $modelZhubishang = M('ZhubishangPlan');
+        $where = [
+            'status'=>1,
+            'remain_times'=>['gt',0]
+        ];
+        $currentPlan = $modelZhubishang->where($where)->order('amount asc')->find();
+        if(empty($currentPlan)){
+            echo json_encode(array('status' => 0, 'info' => '查询失败，没有找到铸币商方案'));
+        }
+        $where = [
+            'status'=>1,
+            'remain_times'=>['gt',0],
+            'amount'=>['gt',$currentPlan['amount']]
+        ];
+        $nextPlan = $modelZhubishang->where($where)->order('amount asc')->find();
+        if(empty($currentPlan)){
+            echo json_encode(array('status' => 0, 'info' => '查询失败，没有找到铸币商方案'));
+        }
+        $reponse['amount'] = $currentPlan['amount'];
+        $reponse['next_amount'] =  $nextPlan['amount'];
+        $reponse['remain'] = $currentPlan['remain_times'];
+        echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$reponse));
     }
 
     /**写入日志ini
