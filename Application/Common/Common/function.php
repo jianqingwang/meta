@@ -3274,5 +3274,10 @@ function p($arr){
   die();
 }
 
-
+/**创建订单
+ * @return string
+ */
+ function createOrdernum(){
+    return   date('YmdHis') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+}
 ?>

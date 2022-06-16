@@ -254,10 +254,6 @@ class TronController extends HomeController
         $model_user->where(['id' => $user_info['id']])->save([ 'zhubishang'=> 0]);
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
         exit();
-
-
-        // echo json_encode(array('status'=>1,'info'=>'质押成功'));exit();
-        // $this->success("投入成功");
     }
     
       //充值记录
@@ -311,9 +307,11 @@ class TronController extends HomeController
         }
         $user_info = $model_user->where(['address' => $address])->find();
         if (!$user_info) {
-            echo json_encode(array('status' => 0, 'info' => '参数错误'));
+            echo json_encode(array('status' => 0, 'info' => '用户不存在'));
             exit();
         }
+
+
         if (intval($day)==3) {
             if(2000<$amount){
                 echo json_encode(array('status' => 0, 'info' => '已经超过2000USDM最大投资额度'));
@@ -336,18 +334,6 @@ class TronController extends HomeController
                 exit();
             }
         }
-
-
-        M('Hash')->add([
-            'hash' => $txid,
-            'create_time' => time(),
-            'uid' => $user_info['id'],
-            'amount' => $amount,
-            'day' => intval($day),
-            'type' => 1
-        ]);
-
-
         if (intval($day)==30) {
             $model_user->where(['id' => $user_info['id']])->save(['redeem_time' => time(), 'redeem_day' => 30,'zhubishang'=> 1,'usdt'=> bcsub($user_info['usdt'],3000)]);
         } else
@@ -359,7 +345,6 @@ class TronController extends HomeController
 
                     }
                 }
-
                 $model_user->where(['id' => $user_info['id']])
                     ->save(['redeem_time' => time(), 'redeem_day' => 90,'zhubishang'=> 1,'usdt'=> bcsub($user_info['usdt'],3000)]);
             } else
@@ -380,10 +365,8 @@ class TronController extends HomeController
               }
             }
         }
-
         $model_config->where(['id' => 1])->setInc('now', intval($amount));
-        $res = $model_rechage->add(['uid' => $user_info['id'], "create_time" => time(), "rechage" => intval($amount)]);
-
+        $model_rechage->add(['uid' => $user_info['id'], "create_time" => time(), "rechage" => intval($amount)]);
         self::_buyPledge($user_info['id'],$amount,intval($day),$txid);
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
         exit();
@@ -447,12 +430,12 @@ class TronController extends HomeController
   }
 
 
-    //用户提现接口
+    //用户提现接口        //提现申请
     public function withdraw11()
-        //提现申请
     {
         $model_user = M('User');
         $log = M('WithdrawLog');
+        $modelBalanceLog = M('BalanceLog');
         $address = $_GET['unknown'];
         $amount = $_GET['amount'];
         $amount = trim($amount);
@@ -470,35 +453,33 @@ class TronController extends HomeController
             exit();
         }
 
-
         if($amount > $user_info['recharge']){
             echo json_encode(array('status'=>0,'info'=>'提现数量超过mpc数据,请重新输入！'));
             exit();
         }
-        
-       
         //出款账户钱包余额
         $walletAmount = $this->getAdmount();
+        $withdraw_current = $amount;
         if($walletAmount <= $withdraw_current){
             echo json_encode(array('status'=>0,'info'=>'系统维护中，请联系客服！'));
             exit();
         }
-        $withdraw_current = $amount;
-           //限额，限额以下自动出币
+        //限额，限额以下自动出币
         $limit = 30000;
         $fee = $withdraw_current*0.01;//手续费
+        $ordernum = createOrdernum();
         //自动出款
         if($withdraw_current <= $limit && $walletAmount >= $withdraw_current){
-            
+            $balance_before = $user_info['recharge'];
+            $belance_after = $user_info['recharge']+$amount;
             $model_user->where(['id' => $user_info['id']])->save([
-                'recharge'=>($user_info['recharge']-$amount),
+                'recharge'=>($belance_after),
                 'withdraw_current'=>$withdraw_current,
                 'withdraw_time'=>time(),
-                'withdraw'=>($user_info['withdraw']+$withdraw),
+                'withdraw'=>($user_info['withdraw']+$amount),
                 'withdraw_total'=>($user_info['withdraw_total']+$withdraw_current),
                 ]);
-                
-            
+
             $log_data = [
                 'amount' => $withdraw_current,
                 'create_time' => time(),
@@ -506,31 +487,32 @@ class TronController extends HomeController
                 'uid' => $user_info['id'],
                 'address' => $user_info['address'],
                 'tx_addr' => $user_info['address'],
+                'ordernum'=>$ordernum,
                 'type'=>1,// 后台发放
                 'hash' => 'temp'
             ];
-            $id = $log->add($log_data);  
+            $id = $log->add($log_data);
+            $balanceLog = [
+                'uid' => $user_info['id'],
+                'amount'=>$amount,
+                'type'=>1,
+                'wallet'=>'mpc',
+                'balance_before'=>$balance_before,
+                'belance_after'=>$belance_after,
+                'ordernum'=>$ordernum,
+                "create_time" => time(),
+            ];
+            //流水
+            $modelBalanceLog->add($balanceLog);
             $hash = $this->sendTransaction($user_info['address'],$withdraw_current-$fee);
             $log->where(['id' =>$id])->save([
                 'hash'=>$hash,
                 ]);
             echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
             exit();
-            
-        }else{
-            
-            $this->logInfo('用户id'.$user_info['id'].'地址'.$address.'提现金额'.$withdraw_current.'限制额度'.$limit.'当前余额'.$walletAmount);
-            if($user_info['no_withdraw']>0){
-            $withdraw_current = $withdraw_current + $user_info['no_withdraw'];
-            }
-        $model_user->where(['id' => $user_info['id']])->save(['recharge'=>($user_info['recharge']-$amount),'withdraw_current'=>$withdraw_current,'withdraw_time'=>time()]);
-        
-        $model_user->where(['id' => $user_info['id']])->setInc('no_withdraw', $amount);
-            
-        echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
-        exit();
         }
- 
+        echo json_encode(array('status'=>0,'info'=>'系统维护中，请联系客服！'));
+        exit();
     }
     //mpc价格
     public function getMpcPrice(){
@@ -543,8 +525,9 @@ class TronController extends HomeController
             $price = $rate['rate'];
             return $price;
         }
+        $token = 'f7fce7eeb23e2e61786ddaa164329a991655134333290996444';
         $url = 'https://api.opencc.xyz/v1api/v2/tokens/0xcc28a76d6530388b7a1dd585136f8be5c9033cef-bsc';
-        $headerArray =array("Content-type:application/json;","Accept:application/json","x-auth:c2fb6af86d52442370b37b3804ee8f3f1654528128901482086");
+        $headerArray =array("Content-type:application/json;","Accept:application/json","x-auth:".$token);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
@@ -1738,31 +1721,13 @@ class TronController extends HomeController
                 $level = $k1 + 1; //我的层级
 
                 $is_check = self::_isCheckTeamAward($recharge, $level);
-                $team_award = 0;
                 if ($is_check) {
-                    //$team_percent = self::_getTeamReturnPercent($recharge, $circle_info);
                     $team_percent = self::_getTeamReturnPercentByLevel($level,$circle_info);
-
                     $team_award = $interests * $team_percent / 100;
                     $team_award = substr(sprintf("%.5f", $team_award), 0, -1);// 0.12
-
                     if ($team_award <= 0) {
                         continue;
                     }
-                    // $res = $user->where(['id' => $v1])->save(['no_withdraw' => ['exp', 'no_withdraw + ' . $team_award]]);
-                    // if (!$res) {
-                    //     throw new Exception('生成团队奖励失败！');
-                    // }
-
-                    // // 添加日志
-                    // $log_array[] = [
-                    //     'uid' => $v1,
-                    //     'amount' => $team_award,
-                    //     'create_time' => time(),
-                    //     'type' => 4,
-                    //     'desc' => '团队奖励',
-                    //     'target_id'=>$target_id,
-                    // ];
                 }
             }
 
@@ -2364,6 +2329,7 @@ class TronController extends HomeController
             }
         }
         $reponse['pledge'] = $list;
+        $reponse['domain'] = 'https://finance.metafinancepro.cc/?ref='.$address;
         echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$reponse));
     }
 
