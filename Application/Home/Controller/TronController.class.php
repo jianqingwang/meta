@@ -297,9 +297,10 @@ class TronController extends HomeController
         $model_config = M('Config');
         $model_rechage = M('Rechage');
         $model_pledge = M('Pledge');
+        $modelPledgePlan = M('PledgePlan');
         $address = $_GET['unknown'];
         $amount = $_GET['amount'];
-        $day= intval($_GET['day']);
+        $day = intval($_GET['day']);
         $txid = $_GET['txid'];
         if ($amount < 1) {
             echo json_encode(array('status' => 0, 'info' => '最少质押1USDM'));
@@ -310,7 +311,6 @@ class TronController extends HomeController
             echo json_encode(array('status' => 0, 'info' => '用户不存在'));
             exit();
         }
-
 
         if (intval($day)==3) {
             if(2000<$amount){
