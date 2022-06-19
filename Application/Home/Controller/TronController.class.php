@@ -297,11 +297,11 @@ class TronController extends HomeController
         $model_config = M('Config');
         $model_rechage = M('Rechage');
         $model_pledge = M('Pledge');
+        $model_BalanceLog = M('BalanceLog');
         $modelPledgePlan = M('PledgePlan');
         $address = $_GET['unknown'];
         $amount = $_GET['amount'];
         $day = intval($_GET['day']);
-        $txid = $_GET['txid'];
         if ($amount < 1) {
             echo json_encode(array('status' => 0, 'info' => '最少质押1USDM'));
             exit();
@@ -311,63 +311,65 @@ class TronController extends HomeController
             echo json_encode(array('status' => 0, 'info' => '用户不存在'));
             exit();
         }
-
-        if (intval($day)==3) {
-            if(2000<$amount){
-                echo json_encode(array('status' => 0, 'info' => '已经超过2000USDM最大投资额度'));
-                exit();
-            }
-            if($user_info['usdt']<$amount){
-                echo json_encode(array('status' => 0, 'info' => 'USDM不足投资'));
+        if ($user_info['usdt']<$amount) {
+            echo json_encode(array('status' => 0, 'info' => 'usdm余额不足'));
+            exit();
+        }
+        $pledgePlan = $modelPledgePlan->where(['day'=>$day])->find();
+        if(empty($pledgePlan)){
+            echo json_encode(array('status' => 0, 'info' => '质押方案不存在'));
+            exit();
+        }
+        if($pledgePlan['min_amount']>$amount){
+            echo json_encode(array('status' => 0, 'info' => '质押金额太小'));
+            exit();
+        }
+        if($pledgePlan['max_amount']<$amount){
+            echo json_encode(array('status' => 0, 'info' => '质押金额太大'));
+            exit();
+        }
+        if($pledgePlan['times_limit']!=0){
+            $times = $model_pledge->where(['uid'=>$user_info['id'],'pledge_day'=>$day])->count();
+            if($times>=$pledgePlan['times_limit']){
+                echo json_encode(array('status' => 0, 'info' => '套餐限制投资'.$pledgePlan['times_limit'].'次'));
                 exit();
             }
         }
-        if (intval($day)==30||intval($day)==90) {
-            if($user_info['usdt']<3000){
-                echo json_encode(array('status' => 0, 'info' => 'USDM不足3000'));
-                exit();
-            }
+        //投资总额限制
+        $pleadgeAmount = $model_pledge->where(['uid'=>$user_info['id'],'pledge_day'=>$day,'state'=>1])->sum('pledge_amount');
+        if($pleadgeAmount >= $pledgePlan['max_amount']){
+            echo json_encode(array('status' => 0, 'info' => '套餐限制投资'.$pleadgeAmount.'USDM'));
+            exit();
         }
-        if (intval($day)==1||intval($day)==5||intval($day)==10||intval($day)==20) {
-            if($user_info['recharge']<$amount){
-                echo json_encode(array('status' => 0, 'info' => 'MPC不足投资'));
-                exit();
-            }
-        }
-        if (intval($day)==30) {
-            $model_user->where(['id' => $user_info['id']])->save(['redeem_time' => time(), 'redeem_day' => 30,'zhubishang'=> 1,'usdt'=> bcsub($user_info['usdt'],3000)]);
-        } else
-        {
-            if (intval($day)==90) {
-                if($user_info['pid']) {
-                    $pid=$model_user->where(['id' => $user_info['pid']])->find();
-                    if($pid['zhubishang']==1){
-
-                    }
-                }
-                $model_user->where(['id' => $user_info['id']])
-                    ->save(['redeem_time' => time(), 'redeem_day' => 90,'zhubishang'=> 1,'usdt'=> bcsub($user_info['usdt'],3000)]);
-            } else
-            {
-                if (intval($day)==3) {
-                    //'72小时只能投一次'
-                    $pledge=$model_pledge->where(['uid'=>$user_info['id'],'pledge_day'=>3])->order('id desc')->find();
-                    if($pledge['pledge_end_time']>time()){
-                        echo json_encode(array('status' => 0, 'info' => '72小时只能铸造一次'));
-                        exit();
-                    }
-                    $model_user->where(['id' => $user_info['id']])->save(['redeem_time' => time(), 'redeem_day' => 3,'usdt'=> bcsub($user_info['usdt'],$amount)]);
-                    if ($user_info['pid']) {
-                    }
-                }
-                else {
-                    $model_user->where(['id' => $user_info['id']])->save(['redeem_time' => time(), 'redeem_day' => $day,'recharge'=> bcsub($user_info['recharge'],$amount)]);
-              }
-            }
-        }
-        $model_config->where(['id' => 1])->setInc('now', intval($amount));
-        $model_rechage->add(['uid' => $user_info['id'], "create_time" => time(), "rechage" => intval($amount)]);
-        self::_buyPledge($user_info['id'],$amount,intval($day),$txid);
+        $ordernum = createOrdernum();
+        $time = time();
+        //扣除余额
+        $balance_before = $user_info['usdt'];
+        $belance_after = $user_info['usdt']-$amount;
+        $model_user->where(['id' => $user_info['id']])->save(['usdt'=>$belance_after]);
+        //生成铸币订单
+        $data = [
+            'uid' => $user_info['id'],
+            'pledge_day'=>$pledgePlan['pledge_day'],
+            'pledge_amount'=>$amount,
+            "create_time" => time(),
+            "ordernum" => $ordernum,
+            'state'=>1,
+            'pledge_start_time'=>$time,
+            'pledge_end_time'=>($time+86400*$pledgePlan['pledge_day'])
+        ];
+        $model_pledge->add($data);
+        //加入流水
+        $model_BalanceLog->add([
+            'uid' => $user_info['id'],
+            'amount'=>$amount,
+            'type'=>6,
+            'wallet'=>'usdm',
+            'balance_before'=>$balance_before,
+            'belance_after'=>$belance_after,
+            'ordernum'=>$ordernum,
+            "create_time" => time(),
+        ]);
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
         exit();
     }
