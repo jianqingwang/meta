@@ -172,7 +172,13 @@ class BianController extends HomeController
                 "amount" => intval($amount),
                 'state'=>1,
             ];
-            $modelZhubishang->add($data);
+            $modelZhubishangOrder->add($data);
+            //修改铸币商名额
+            //修改用户状态
+            $update = [
+                'remain_times'=>$currentPlan['remain_times']-1,
+            ];
+            $modelZhubishang->where(['id' => $currentPlan['id']])->save($update);
             echo  '铸币商设置成功'.$result['hash'].PHP_EOL;
         }
     }

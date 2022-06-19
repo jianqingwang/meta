@@ -255,6 +255,35 @@ class IndexController extends BaseController
     {
         $this->display('user');
     }
+
+    public function userAdd()
+    {
+        $id = I('id');
+        $userInfo = [];
+        $userModel = M("User");
+        if(!empty($id)) {
+            $userInfo = $userModel->where(['id' => $id])->find();
+        }
+        if(IS_POST){
+            $params = $_REQUEST;
+            if(empty($params['address'])) {
+                $this->ajaxReturn(['msg' => '保存失败,钱包没上传', 'code' => 0]);
+            }
+            $userInfo = $userModel->where(['address' => $userInfo['ddress']])->find();
+            if(empty($userInfo)){
+                $this->ajaxReturn(['msg' => '保存失败，用户不存在', 'code' => 0]);
+            }
+            $update = [
+                'recharge'=>$params['recharge'],
+                'usdt'=>$params['usdt']
+            ];
+            $userModel->where(['address' => $userInfo['ddress']])->save($update);
+            $this->ajaxReturn(['msg' => '保存成功', 'code' => 1]);
+            die;
+        }
+        $this->assign('userInfo',$userInfo);
+        $this->display('user_add');
+    }
      public function withdraw()
     {
         $this->display('withdraw');
@@ -282,7 +311,7 @@ class IndexController extends BaseController
             $where['pid'] = $parent['id'];
         }
 
-        $list = $user->where($where)->page($_GET['page'], $_GET['limit'])->select();
+        $list = $user->where($where)->page($_GET['page'], $_GET['limit'])->order('id desc')->select();
         foreach ($list as $key=>&$val){
             $val['income'] =$rechage->where(['uid'=>$val['id']])->sum('rechage')?:0;
             $val['out']=$withdraw->where(['uid'=>$val['id']])->sum('amount')?:0;

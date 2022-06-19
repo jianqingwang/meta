@@ -147,7 +147,7 @@
                     maxmin:true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: '../page/table/edit.html',
+                    content: '../Index/userAdd.html?id='+data.id,
                 });
                 $(window).on("resize", function () {
                     layer.full(index);
