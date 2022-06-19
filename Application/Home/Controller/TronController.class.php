@@ -354,6 +354,7 @@ class TronController extends HomeController
             'pledge_amount'=>$amount,
             "create_time" => time(),
             "ordernum" => $ordernum,
+            'rate'=>$pledgePlan['rate'],
             'state'=>1,
             'pledge_start_time'=>$time,
             'pledge_end_time'=>($time+86400*$pledgePlan['pledge_day'])
