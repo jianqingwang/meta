@@ -2223,6 +2223,7 @@ class TronController extends HomeController
             $user_info = $model_user->where(['address' => $address])->find();
             $where =[
                 'uid'=>$user_info['id'],
+                'is_recharge'=>1
             ];
             $list = $model_rechage_log->field(['id,rechage as amount,create_time'])->where($where)->order('id desc')->page($p.','.$limit)->select();
             if(!empty($list)){

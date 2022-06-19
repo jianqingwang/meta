@@ -75,7 +75,8 @@ class BianController extends HomeController
                 'address'=>$address,
                 'ordernum'=>$ordernum,
                 "create_time" => time(),
-                "rechage" => $amount
+                "rechage" => $amount,
+                'is_recharge'=>1
             ]);
             //插入流水
                $model_BalanceLog->add([

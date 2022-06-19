@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62d48fc7-e337-4991-b7f6-344c716f554b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Home/Controller/BianController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Home/Controller/BianController.class.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/Home/Controller/TronController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Home/Controller/TronController.class.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -63,25 +65,25 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="97" />
-          <entry key="php" value="681" />
+          <entry key="php" value="692" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="97" />
-          <entry key="PHP" value="681" />
+          <entry key="PHP" value="692" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="html" value="7" />
-          <entry key="php" value="2" />
+          <entry key="php" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="HTML" value="7" />
-          <entry key="PHP" value="2" />
+          <entry key="PHP" value="4" />
         </counts>
       </usages-collector>
     </session>
@@ -91,8 +93,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Application/Home/Controller/TronController.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="356" column="40" selection-start-line="356" selection-start-column="40" selection-end-line="356" selection-end-column="40" />
+            <state relative-caret-position="312">
+              <caret line="2225" column="32" selection-start-line="2225" selection-start-column="32" selection-end-line="2225" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -131,11 +133,11 @@
         <option value="$PROJECT_DIR$/Application/Admin/View/Index/index.html" />
         <option value="$PROJECT_DIR$/public/api/init.json" />
         <option value="$PROJECT_DIR$/Application/Common/Common/function.php" />
-        <option value="$PROJECT_DIR$/Application/Home/Controller/BianController.class.php" />
         <option value="$PROJECT_DIR$/Application/Admin/View/Index/user_add.html" />
         <option value="$PROJECT_DIR$/Application/Admin/View/Index/order.html" />
         <option value="$PROJECT_DIR$/Application/Admin/Controller/IndexController.class.php" />
         <option value="$PROJECT_DIR$/Application/Admin/View/Index/user.html" />
+        <option value="$PROJECT_DIR$/Application/Home/Controller/BianController.class.php" />
         <option value="$PROJECT_DIR$/Application/Home/Controller/TronController.class.php" />
       </list>
     </option>
@@ -200,6 +202,12 @@
               <item name="meta" type="b2602c69:ProjectViewProjectNode" />
               <item name="meta" type="462c0819:PsiDirectoryNode" />
               <item name="Application" type="462c0819:PsiDirectoryNode" />
+              <item name="Admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="meta" type="b2602c69:ProjectViewProjectNode" />
+              <item name="meta" type="462c0819:PsiDirectoryNode" />
+              <item name="Application" type="462c0819:PsiDirectoryNode" />
               <item name="Home" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -254,18 +262,18 @@
       <workItem from="1654951960057" duration="14824000" />
       <workItem from="1655118209689" duration="3124000" />
       <workItem from="1655385295696" duration="3141000" />
-      <workItem from="1655652699277" duration="4390000" />
+      <workItem from="1655652699277" duration="4941000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32742000" />
+    <option name="totallyTimeSpent" value="33293000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1400" height="776" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20119224" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26080477" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -384,13 +392,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Home/Controller/BianController.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="179" column="14" lean-forward="true" selection-start-line="179" selection-start-column="14" selection-end-line="179" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Application/Admin/View/Index/edit.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-550">
@@ -436,10 +437,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Home/Controller/BianController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1303">
+          <caret line="77" column="24" selection-start-line="77" selection-start-column="24" selection-end-line="77" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Application/Home/Controller/TronController.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="356" column="40" selection-start-line="356" selection-start-column="40" selection-end-line="356" selection-end-column="40" />
+        <state relative-caret-position="312">
+          <caret line="2225" column="32" selection-start-line="2225" selection-start-column="32" selection-end-line="2225" selection-end-column="32" />
         </state>
       </provider>
     </entry>
