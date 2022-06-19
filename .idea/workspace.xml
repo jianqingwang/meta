@@ -4,11 +4,10 @@
     <list default="true" id="62d48fc7-e337-4991-b7f6-344c716f554b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/Admin/Controller/IndexController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Admin/Controller/IndexController.class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Admin/View/Index/order.html" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Admin/View/Index/order.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/Admin/View/Index/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Admin/View/Index/user.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Home/Controller/BianController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Home/Controller/BianController.class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/Cache/Admin/455dd59e7ffe0d0ea2f45d03db7d85a9.php" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/Cache/Admin/455dd59e7ffe0d0ea2f45d03db7d85a9.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Runtime/Cache/Admin/f2ad854573dbf0e17793495ce8b9e81a.php" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/Cache/Admin/f2ad854573dbf0e17793495ce8b9e81a.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nginx.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/nginx.htaccess" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/nginx.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/public/nginx.htaccess" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,25 +67,25 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="71" />
-          <entry key="php" value="644" />
+          <entry key="html" value="97" />
+          <entry key="php" value="666" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="71" />
-          <entry key="PHP" value="644" />
+          <entry key="HTML" value="97" />
+          <entry key="PHP" value="666" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="html" value="5" />
+          <entry key="html" value="7" />
           <entry key="php" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="HTML" value="5" />
+          <entry key="HTML" value="7" />
           <entry key="PHP" value="1" />
         </counts>
       </usages-collector>
@@ -103,61 +102,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Application/Admin/Controller/IndexController.class.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="287">
-              <caret line="313" column="91" selection-start-line="313" selection-start-column="91" selection-end-line="313" selection-end-column="91" />
+              <caret line="331" column="13" lean-forward="true" selection-start-line="331" selection-start-column="13" selection-end-line="331" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Application/Admin/View/Index/user.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="387">
-              <caret line="157" column="30" lean-forward="true" selection-start-line="157" selection-start-column="30" selection-end-line="157" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Admin/View/Index/user_add.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="33" column="43" lean-forward="true" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="43" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Admin/View/Index/add.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="52" column="27" selection-end-line="139" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Admin/View/Index/edit.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-550">
-              <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Admin/View/Index/circle.html">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Home/Controller/BianController.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="179" column="14" lean-forward="true" selection-start-line="179" selection-start-column="14" selection-end-line="179" selection-end-column="14" />
+            <state relative-caret-position="237">
+              <caret line="82" column="62" lean-forward="true" selection-start-line="82" selection-start-column="62" selection-end-line="82" selection-end-column="62" />
             </state>
           </provider>
         </entry>
@@ -178,10 +136,11 @@
       <find>zhubishang</find>
       <find>rechange</find>
       <find>提现</find>
-      <find>index(</find>
       <find>user(</find>
       <find>add</find>
       <find>edit</find>
+      <find>index(</find>
+      <find>getUserList</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -198,8 +157,9 @@
         <option value="$PROJECT_DIR$/Application/Home/Controller/TronController.class.php" />
         <option value="$PROJECT_DIR$/Application/Home/Controller/BianController.class.php" />
         <option value="$PROJECT_DIR$/Application/Admin/View/Index/user_add.html" />
-        <option value="$PROJECT_DIR$/Application/Admin/View/Index/user.html" />
+        <option value="$PROJECT_DIR$/Application/Admin/View/Index/order.html" />
         <option value="$PROJECT_DIR$/Application/Admin/Controller/IndexController.class.php" />
+        <option value="$PROJECT_DIR$/Application/Admin/View/Index/user.html" />
       </list>
     </option>
   </component>
@@ -332,12 +292,12 @@
       <workItem from="1654951960057" duration="14824000" />
       <workItem from="1655118209689" duration="3124000" />
       <workItem from="1655385295696" duration="3141000" />
-      <workItem from="1655652699277" duration="3643000" />
+      <workItem from="1655652699277" duration="4315000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31995000" />
+    <option name="totallyTimeSpent" value="32667000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1400" height="776" extended-state="0" />
@@ -386,11 +346,6 @@
         <state relative-caret-position="1375">
           <caret line="55" column="43" selection-start-line="55" selection-start-column="22" selection-end-line="55" selection-end-column="43" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Admin/View/Index/order.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-300" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Application/Admin/View/Index/zhubishang-order.html">
@@ -505,17 +460,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Admin/View/Index/user.html">
+    <entry file="file://$PROJECT_DIR$/Application/Admin/View/Index/order.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="157" column="30" lean-forward="true" selection-start-line="157" selection-start-column="30" selection-end-line="157" selection-end-column="30" />
+        <state relative-caret-position="475">
+          <caret line="58" column="56" selection-start-line="58" selection-start-column="56" selection-end-line="58" selection-end-column="56" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Application/Admin/Controller/IndexController.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="287">
-          <caret line="313" column="91" selection-start-line="313" selection-start-column="91" selection-end-line="313" selection-end-column="91" />
+          <caret line="331" column="13" lean-forward="true" selection-start-line="331" selection-start-column="13" selection-end-line="331" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/View/Index/user.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="82" column="62" lean-forward="true" selection-start-line="82" selection-start-column="62" selection-end-line="82" selection-end-column="62" />
         </state>
       </provider>
     </entry>

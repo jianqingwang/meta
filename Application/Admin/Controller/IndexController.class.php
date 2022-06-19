@@ -315,7 +315,6 @@ class IndexController extends BaseController
         foreach ($list as $key=>&$val){
             $val['income'] =$rechage->where(['uid'=>$val['id']])->sum('rechage')?:0;
             $val['out']=$withdraw->where(['uid'=>$val['id']])->sum('amount')?:0;
-           // $val['withdraw_time'] = date("Y-m-d H:i:s", $val['withdraw_time']);
              if($val['withdraw_time']!=0){
             $val['withdraw_time'] = date("Y-m-d H:i:s", $val['withdraw_time']);
             }else{
@@ -325,6 +324,11 @@ class IndexController extends BaseController
             if($val['pid']!=0){
                 $parent = $user->where(['id'=>$val['pid']])->find();
                 $val['parent'] = $parent['address']?$parent['address']:'上级被删除';
+            }
+            if($val['zhubishang']==1){
+                $val['zhubishang'] = '铸币商';
+            }else{
+                $val['zhubishang'] = '非铸币商';
             }
         }
 

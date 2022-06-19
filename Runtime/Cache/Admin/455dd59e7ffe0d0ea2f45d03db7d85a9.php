@@ -56,10 +56,10 @@
                 {field: 'id', width: 80, title: 'ID', sort: true},
                 {field: 'address', width: 400, title: '用户地址'},
                 {field: 'pledge_amount', width: 150, title: '充值金额'},
-                {field: 'static_amount', width: 150, title: '静态结算金额'},
+                {field: 'rate', width: 150, title: '年化(%)'},
                /* {field: 'dynamic_amount', width: 150, title: '上级奖励金额'},*/
+                {field: 'return', width: 200, title: '累计发放收益'},
                 {field: 'create_time', width: 200, title: '创建时间', },
-                {field: 'pledge_end_time', width: 200, title: '到期时间'},
                 // {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
             ]],
             limits: [10, 15, 20, 25, 50, 100],

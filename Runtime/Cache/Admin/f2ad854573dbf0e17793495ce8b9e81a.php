@@ -76,6 +76,7 @@
                 {type: "checkbox", width: 50},
                 {field: 'id', width: 80, title: 'ID', sort: true},
                 {field: 'address', width: 400, title: '用户地址'},
+                {field: 'zhubishang', width: 400, title: '是否是铸币商'},
                 {field: 'parent', width: 400, title: '上级地址'},
                 {field: 'income', width: 120, title: '进币', },
                 {field: 'out', width: 120, title: '出币'},
