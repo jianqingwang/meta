@@ -2286,9 +2286,12 @@ class TronController extends HomeController
         $address = I('unknown');
         $modelUser = M('User');
         $reponse['zhubishang_count'] = 0;
+        $reponse['zhubishang_levelOne'] = 0;
+        $reponse['zhubishang_levelTwo'] = 0;
         $reponse['zhubi_amount'] = 0;
         $reponse['user_amount'] = 0;
         $reponse['user_count'] = 0;
+
         if(empty($address)){
             echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$reponse));
         }
@@ -2301,6 +2304,8 @@ class TronController extends HomeController
         $levelArr = $modelUser->where(['pid' => $userInfo['id']])->getField('id', true);
         $levelTwo = $modelUser->where(['pid' => ['in',  $levelArr]])->count();
         $reponse['zhubishang_count'] = $levelOne+$levelTwo;
+        $reponse['zhubishang_levelOne'] = $levelOne;
+        $reponse['zhubishang_levelTwo'] = $levelTwo;
         $downId = self::_downIds($userInfo['id']);
         $reponse['user_count'] = count($downId);
         echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$reponse));
