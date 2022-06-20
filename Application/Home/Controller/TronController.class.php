@@ -200,13 +200,12 @@ class TronController extends HomeController
         $modelPledge = M('Pledge');
         $reponse['rate']    = $this->getMpcPrice();//mpc汇率
         $reponse['pid'] = '';//上级id
-        if(empty($userInfo)){
-            $reponse['pledged'] = 0;//累计铸造
-            $reponse['pledgeding'] = 0;//正在铸造
-            $reponse['recharge'] = 0;//MPC钱包余额
-            $reponse['usdm'] = 0;//usdm余额
-            $reponse['zhubishang'] = 0;//是否是铸币商
-        }else{
+        $reponse['pledged'] = 0;//累计铸造
+        $reponse['pledgeding'] = 0;//正在铸造
+        $reponse['recharge'] = 0;//MPC钱包余额
+        $reponse['usdm'] = 0;//usdm余额
+        $reponse['zhubishang'] = 0;//是否是铸币商
+        if(!empty($userInfo)){
             $where = [
                 'uid'=> $userInfo['id'],
           ];
