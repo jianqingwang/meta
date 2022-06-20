@@ -415,6 +415,7 @@ class TronController extends HomeController
      * @param string $address
      */
     function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408BaA38754f7D75e6aBc16b3250B'){
+        $currency = strtoupper($currency);
         $url = 'https://api.duobifu.com/mpc/getBalance?net='.$net.'&currency='.$currency.'&address='.$address;
         $ret = file_get_contents($url);
         $retArr = json_decode(  $ret,true);
@@ -425,8 +426,9 @@ class TronController extends HomeController
      * @param $address
      * @param $amount
      */
-    function sendTransaction($address,$amount){
-    $url = 'https://api.duobifu.com/mpc/sendTransaction?address='.$address.'&amount='.$amount;
+    function sendTransaction($address,$amount,$currency='mpc'){
+    $currency = strtoupper($currency);
+    $url = 'https://api.duobifu.com/mpc/sendTransaction?address='.$address.'&amount='.$amount.'&currency'.$currency;
     $ret = file_get_contents($url);
     $retArr = json_decode(  $ret,true);
     return $retArr['data']['txid'];

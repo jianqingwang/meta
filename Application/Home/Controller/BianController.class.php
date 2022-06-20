@@ -158,6 +158,7 @@ class BianController extends HomeController
                 echo date('Y-m-d H:i:s').'用户充值金额匹配不到套餐，跳过'.PHP_EOL;
                 continue;
             }
+            $ordernum = createOrdernum();
             //修改用户状态
             $update = [
                 'zhubishang_amount'=>$amount,
@@ -172,6 +173,7 @@ class BianController extends HomeController
                 "create_time" => time(),
                 "amount" => intval($amount),
                 'state'=>1,
+                'ordernum'=>$ordernum
             ];
             $modelZhubishangOrder->add($data);
             //修改铸币商名额
@@ -180,7 +182,54 @@ class BianController extends HomeController
                 'remain_times'=>$currentPlan['remain_times']-1,
             ];
             $modelZhubishang->where(['id' => $currentPlan['id']])->save($update);
-            echo  '铸币商设置成功'.$result['hash'].PHP_EOL;
+            //推10%和间推5%
+            $remainAmount = $this->getAdmount();
+            if($remainAmount<$currentPlan['amount']*0.15){
+                echo  '铸币商设置成功'.$result['hash'].PHP_EOL;
+                continue;
+            }
+            //修改分红状态
+            $update = [
+                'is_fenhong'=>1,
+            ];
+            $modelZhubishangOrder->where(['ordernum' => $ordernum])->save($update);
+            //一级分红4
+            $pUserInfo = $modelUser->where(['pid'=>$user_info['pid']])->find();
+            if(empty($pUserInfo)){
+                continue;
+            }
+            $this->sendTransaction($pUserInfo['address'],$currentPlan['amount']*0.1);
+            //二级分红
+            $pUserInfo = $modelUser->where(['pid'=>$pUserInfo['pid']])->find();
+            if(empty($pUserInfo)){
+                continue;
+            }
+            $this->sendTransaction($pUserInfo['address'],$currentPlan['amount']*0.05);
         }
+    }
+
+    /**查余额
+     * @param string $net
+     * @param string $currency
+     * @param string $address
+     */
+    function  getAdmount($net='BEP20',$currency='USDT',$address = '0xc0354b09842408BaA38754f7D75e6aBc16b3250B'){
+        $currency = strtoupper($currency);
+        $url = 'https://api.duobifu.com/mpc/getBalance?net='.$net.'&currency='.$currency.'&address='.$address;
+        $ret = file_get_contents($url);
+        $retArr = json_decode(  $ret,true);
+        return  $retArr['data']['balance']*1;
+    }
+
+    /**转账
+     * @param $address
+     * @param $amount
+     */
+    function sendTransaction($address,$amount,$currency='USDT'){
+        $currency = strtoupper($currency);
+        $url = 'https://api.duobifu.com/mpc/sendTransaction?address='.$address.'&amount='.$amount.'&currency'.$currency;
+        $ret = file_get_contents($url);
+        $retArr = json_decode(  $ret,true);
+        return $retArr['data']['txid'];
     }
 }
