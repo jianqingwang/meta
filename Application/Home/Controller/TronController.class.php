@@ -528,7 +528,7 @@ class TronController extends HomeController
             $price = $rate['rate'];
             return $price;
         }
-        $token = 'f7fce7eeb23e2e61786ddaa164329a991655134333290996444';
+        $token = 'f1374c4f86bbd0350003209fb21f0d7a1655686629066615309';
         $url = 'https://api.opencc.xyz/v1api/v2/tokens/0xcc28a76d6530388b7a1dd585136f8be5c9033cef-bsc';
         $headerArray =array("Content-type:application/json;","Accept:application/json","x-auth:".$token);
         $ch = curl_init();
