@@ -2328,7 +2328,10 @@ class TronController extends HomeController
         $reponse['zhubi_amount'] = 0;
         $reponse['user_amount'] = 0;
         $reponse['user_count'] = 0;
-        $reponse['zhubishang'] = $userInfo['zhubishang'];
+        $reponse['zhubishang'] = 0;
+        if($userInfo['zhubishang']){
+            $reponse['zhubishang'] = 1;
+        }
         //充值提现记录
         $where = ['uid'=>$userInfo['id']];
         $list = $modelWithdrawLog->where($where)->order('id desc')->limit(10)->select();

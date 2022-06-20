@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62d48fc7-e337-4991-b7f6-344c716f554b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Application/Home/Controller/BianController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Home/Controller/BianController.class.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/Home/Controller/TronController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Home/Controller/TronController.class.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -68,13 +67,13 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="97" />
-          <entry key="php" value="1087" />
+          <entry key="php" value="1095" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="97" />
-          <entry key="PHP" value="1087" />
+          <entry key="PHP" value="1095" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -93,16 +92,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Application/Home/Controller/TronController.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="434" column="3" lean-forward="true" selection-start-line="424" selection-start-column="2" selection-end-line="434" selection-end-column="3" />
+            <state relative-caret-position="162">
+              <caret line="2332" column="38" selection-start-line="2332" selection-start-column="38" selection-end-line="2332" selection-end-column="38" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Application/Home/Controller/BianController.class.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="297">
@@ -150,8 +149,8 @@
         <option value="$PROJECT_DIR$/Application/Admin/View/Index/order.html" />
         <option value="$PROJECT_DIR$/Application/Admin/Controller/IndexController.class.php" />
         <option value="$PROJECT_DIR$/Application/Admin/View/Index/user.html" />
-        <option value="$PROJECT_DIR$/Application/Home/Controller/TronController.class.php" />
         <option value="$PROJECT_DIR$/Application/Home/Controller/BianController.class.php" />
+        <option value="$PROJECT_DIR$/Application/Home/Controller/TronController.class.php" />
       </list>
     </option>
   </component>
@@ -278,12 +277,12 @@
       <workItem from="1655652699277" duration="4941000" />
       <workItem from="1655686289631" duration="10000" />
       <workItem from="1655686662469" duration="11000" />
-      <workItem from="1655723896728" duration="2803000" />
+      <workItem from="1655723896728" duration="3657000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36117000" />
+    <option name="totallyTimeSpent" value="36971000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1400" height="776" extended-state="0" />
@@ -444,17 +443,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Home/Controller/TronController.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="434" column="3" lean-forward="true" selection-start-line="424" selection-start-column="2" selection-end-line="434" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Application/Home/Controller/BianController.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
           <caret line="193" column="14" lean-forward="true" selection-start-line="193" selection-start-column="14" selection-end-line="193" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Home/Controller/TronController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="2332" column="38" selection-start-line="2332" selection-start-column="38" selection-end-line="2332" selection-end-column="38" />
         </state>
       </provider>
     </entry>
