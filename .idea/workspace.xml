@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="62d48fc7-e337-4991-b7f6-344c716f554b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Home/Controller/BianController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Home/Controller/BianController.class.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/Home/Controller/TronController.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Home/Controller/TronController.class.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -58,20 +57,24 @@
     <session id="-528494416">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.open.time.6" value="1" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="97" />
-          <entry key="php" value="692" />
+          <entry key="php" value="834" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="97" />
-          <entry key="PHP" value="692" />
+          <entry key="PHP" value="834" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -94,7 +97,7 @@
         <entry file="file://$PROJECT_DIR$/Application/Home/Controller/TronController.class.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="312">
-              <caret line="2225" column="32" selection-start-line="2225" selection-start-column="32" selection-end-line="2225" selection-end-column="32" />
+              <caret line="2302" column="59" lean-forward="true" selection-start-line="2302" selection-start-column="59" selection-end-line="2302" selection-end-column="59" />
             </state>
           </provider>
         </entry>
@@ -120,6 +123,7 @@
       <find>edit</find>
       <find>getUserList</find>
       <find>index(</find>
+      <find>下级</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -227,7 +231,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../meta-front" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
@@ -263,17 +267,20 @@
       <workItem from="1655118209689" duration="3124000" />
       <workItem from="1655385295696" duration="3141000" />
       <workItem from="1655652699277" duration="4941000" />
+      <workItem from="1655686289631" duration="10000" />
+      <workItem from="1655686662469" duration="11000" />
+      <workItem from="1655723896728" duration="965000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33293000" />
+    <option name="totallyTimeSpent" value="34279000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1400" height="776" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26080477" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2719821" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -380,15 +387,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="354">
           <caret line="3279" column="24" lean-forward="true" selection-start-line="3279" selection-start-column="10" selection-end-line="3279" selection-end-column="24" />
-          <folding>
-            <element signature="e#21#25#1" expanded="true" />
-            <element signature="e#10#14#1" expanded="true" />
-            <element signature="e#21#25#1" expanded="true" />
-            <element signature="e#135#139#1" expanded="true" />
-            <element signature="e#21#25#1" expanded="true" />
-            <element signature="e#21#25#1" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -447,7 +445,7 @@
     <entry file="file://$PROJECT_DIR$/Application/Home/Controller/TronController.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="312">
-          <caret line="2225" column="32" selection-start-line="2225" selection-start-column="32" selection-end-line="2225" selection-end-column="32" />
+          <caret line="2302" column="59" lean-forward="true" selection-start-line="2302" selection-start-column="59" selection-end-line="2302" selection-end-column="59" />
         </state>
       </provider>
     </entry>

@@ -1146,7 +1146,7 @@ class TronController extends HomeController
     }
 
     // 获取所有下级
-    private function _downIds($ids, $down_ids, $num = 0)
+    private function _downIds($ids, $down_ids = [], $num = 0)
     {
         $model_user = M('User');
         $dids = $model_user->where(['pid' => ['in', $ids]])->getField('id', true);
@@ -2283,10 +2283,26 @@ class TronController extends HomeController
      * 我的下级
      */
     public function  child(){
+        $address = I('unknown');
+        $modelUser = M('User');
         $reponse['zhubishang_count'] = 0;
         $reponse['zhubi_amount'] = 0;
         $reponse['user_amount'] = 0;
         $reponse['user_count'] = 0;
+        if(empty($address)){
+            echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$reponse));
+        }
+        $userInfo = $modelUser->where(['address' => $address])->find();
+        if(empty( $userInfo)){
+            echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$reponse));
+        }
+        //铸币商$modelUser->where(['pid' => ['in', $ids]])->getField('id', true);
+        $levelOne = $modelUser->where(['pid' => $userInfo['id']])->count();
+        $levelArr = $modelUser->where(['pid' => $userInfo['id']])->getField('id', true);
+        $levelTwo = $modelUser->where(['pid' => ['in',  $levelArr]])->count();
+        $reponse['zhubishang_count'] = $levelOne+$levelTwo;
+        $downId = self::_downIds($userInfo['id']);
+        $reponse['user_count'] = count($downId);
         echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$reponse));
     }
 
@@ -2333,7 +2349,7 @@ class TronController extends HomeController
             }
         }
         $reponse['pledge'] = $list;
-        $reponse['domain'] = 'https://finance.metafinancepro.cc/?ref='.$address;
+        $reponse['domain'] = 'https://finance.tronminer.app/?ref='.$address;
         echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$reponse));
     }
 
