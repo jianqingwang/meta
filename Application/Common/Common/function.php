@@ -3280,4 +3280,41 @@ function p($arr){
  function createOrdernum(){
     return   date('YmdHis') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
 }
+
+/**查余额
+ * @param string $net
+ * @param string $currency
+ * @param string $address
+ */
+function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408BaA38754f7D75e6aBc16b3250B'){
+    $currency = strtoupper($currency);
+    $url = 'https://pay.tronminer.app/mpc/getBalance?net='.$net.'&currency='.$currency.'&address='.$address;
+    $ret = file_get_contents($url);
+    $retArr = json_decode(  $ret,true);
+    return  $retArr['data']['balance']*1;
+}
+
+/**转账
+ * @param $address
+ * @param $amount
+ */
+function sendTransaction($address,$amount,$currency='MPC'){
+    $currency = strtoupper($currency);
+    $url = 'https://pay.tronminer.app/mpc/sendTransaction?address='.$address.'&amount='.$amount.'&currency='.$currency;
+    $ret = file_get_contents($url);
+    $retArr = json_decode(  $ret,true);
+    return $retArr['data']['txid'];
+}
+
+/**写入日志ini
+ * @param $msg
+ * @param string $file
+ */
+function logInfo($msg ,$file='log.txt'){
+    $msg = date('Y-m-d H:i:s').$msg.PHP_EOL;
+    if(!file_exists($file)){
+        touch($file);
+    }
+    file_put_contents($file,$msg , FILE_APPEND | LOCK_EX);
+}
 ?>

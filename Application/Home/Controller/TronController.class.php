@@ -15,7 +15,7 @@ class TronController extends HomeController
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: *');
         header("Content-type: text/json; charset=utf-8");
-          
+
         $model_config = M('Config');
         $config_info = $model_config->where(['id' => 1])->find();
         if ($config_info['status'] >= 1) {
@@ -45,7 +45,7 @@ class TronController extends HomeController
         echo json_encode(array('status' => 1, 'info' => "验证通过"));
         exit();
     }
-    
+
 
     // 获取榜十
     public function getRank()
@@ -178,12 +178,12 @@ class TronController extends HomeController
 
         if (!$user) {
             $model_user->add($condition);
-            $user = $model_user->where(['address' => $address])->find();
         }else{
-          $model_user->where(['address' => $address])->save(['ip'=>$_SERVER['REMOTE_ADDR']]);
-          }
+            $update = ['ip'=>$_SERVER['REMOTE_ADDR']];
+
+            $model_user->where(['address' => $address])->save($update);
+        }
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
-        exit();
     }
 
     /**
@@ -208,7 +208,7 @@ class TronController extends HomeController
         if(!empty($userInfo)){
             $where = [
                 'uid'=> $userInfo['id'],
-          ];
+            ];
             $reponse['pledged'] =   $modelPledge->where($where)->sum('pledge_amount')*1;
             $where = [
                 'uid'=> $userInfo['id'],
@@ -254,26 +254,26 @@ class TronController extends HomeController
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
         exit();
     }
-    
-      //充值记录
-     public  function rechageWithdrawalLog(){
-           $address = $_GET['unknown'];
-           $model_user = M('User');
-           $model_rechage = M('Rechage');
-            $model_withdraw_log = M('WithdrawLog');
-           if(empty($address)){
-               echo json_encode(array('status' => 1, 'info' => 'SUCCESS','list'=>[]));
-                exit();
-           }
-          $user_info = $model_user->where(['address' => $address])->find();
-         
+
+    //充值记录
+    public  function rechageWithdrawalLog(){
+        $address = $_GET['unknown'];
+        $model_user = M('User');
+        $model_rechage = M('Rechage');
+        $model_withdraw_log = M('WithdrawLog');
+        if(empty($address)){
+            echo json_encode(array('status' => 1, 'info' => 'SUCCESS','list'=>[]));
+            exit();
+        }
+        $user_info = $model_user->where(['address' => $address])->find();
+
         if (empty($user_info)) {
             echo json_encode(array('status' => 1, 'info' => 'SUCCESS','list'=>[]));
-                exit();
+            exit();
         }
-        
+
         $list_rechage = $model_rechage->where(['uid'=>$user_info['id']])->order('id desc')->limit(10)->select();
-       if(!empty( $list_rechage)){
+        if(!empty( $list_rechage)){
             foreach ( $list_rechage as &$val){
                 $val['create_time'] = date('Y-m-d H:i:s',$val['create_time']);
             }
@@ -286,10 +286,10 @@ class TronController extends HomeController
         }
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS','list_rechage'=> $list_rechage,'list_withdraw'=>$list_withdraw));
         exit();
-     }
-     
+    }
 
-      // 充值,申请质押
+
+    // 充值,申请质押
     public function rechange()
     {
         $model_user = M('User');
@@ -301,6 +301,8 @@ class TronController extends HomeController
         $address = $_GET['unknown'];
         $amount = $_GET['amount'];
         $day = intval($_GET['day']);
+        echo json_encode(array('status' => 0, 'info' => '铸币还未开始，敬请期待'));
+        exit();
         if ($amount < 1) {
             echo json_encode(array('status' => 0, 'info' => '最少质押1USDM'));
             exit();
@@ -385,8 +387,8 @@ class TronController extends HomeController
     public function rechangeaddress()
         // 充值
     {
-          echo json_encode(array('status' => 11111, 'info' => '参数错误'));
-            exit();
+        echo json_encode(array('status' => 11111, 'info' => '参数错误'));
+        exit();
         $model_user = M('User');
         $model_config = M('Config');
         $model_rechage = M('Rechage');
@@ -405,33 +407,6 @@ class TronController extends HomeController
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
         exit();
     }
-    
-    
-    
-     /**查余额
-     * @param string $net
-     * @param string $currency
-     * @param string $address
-     */
-    function  getAdmount($net='BEP20',$currency='MPC',$address = '0xc0354b09842408BaA38754f7D75e6aBc16b3250B'){
-        $currency = strtoupper($currency);
-        $url = 'https://api.duobifu.com/mpc/getBalance?net='.$net.'&currency='.$currency.'&address='.$address;
-        $ret = file_get_contents($url);
-        $retArr = json_decode(  $ret,true);
-        return  $retArr['data']['balance']*1;
-    }
-
-    /**转账
-     * @param $address
-     * @param $amount
-     */
-    function sendTransaction($address,$amount,$currency='mpc'){
-    $currency = strtoupper($currency);
-    $url = 'https://api.duobifu.com/mpc/sendTransaction?address='.$address.'&amount='.$amount.'&currency'.$currency;
-    $ret = file_get_contents($url);
-    $retArr = json_decode(  $ret,true);
-    return $retArr['data']['txid'];
-  }
 
 
     //用户提现接口        //提现申请
@@ -462,7 +437,7 @@ class TronController extends HomeController
             exit();
         }
         //出款账户钱包余额
-        $walletAmount = $this->getAdmount();
+        $walletAmount = getAdmount();
         $withdraw_current = $amount;
         if($walletAmount <= $withdraw_current){
             echo json_encode(array('status'=>0,'info'=>'系统维护中，请联系客服！'));
@@ -482,7 +457,7 @@ class TronController extends HomeController
                 'withdraw_time'=>time(),
                 'withdraw'=>($user_info['withdraw']+$amount),
                 'withdraw_total'=>($user_info['withdraw_total']+$withdraw_current),
-                ]);
+            ]);
 
             $log_data = [
                 'amount' => $withdraw_current,
@@ -508,10 +483,10 @@ class TronController extends HomeController
             ];
             //流水
             $modelBalanceLog->add($balanceLog);
-            $hash = $this->sendTransaction($user_info['address'],$withdraw_current-$fee);
+            $hash = sendTransaction($user_info['address'],$withdraw_current-$fee,'MPC');
             $log->where(['id' =>$id])->save([
                 'hash'=>$hash,
-                ]);
+            ]);
             echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
             exit();
         }
@@ -529,13 +504,14 @@ class TronController extends HomeController
             $price = $rate['rate'];
             return $price;
         }
+        //https://api.pancakeswap.info/api/v2/tokens/0xcc28a76d6530388b7a1dd585136f8be5c9033cef
         $token = 'f1374c4f86bbd0350003209fb21f0d7a1655686629066615309';
-        $url = 'https://api.opencc.xyz/v1api/v2/tokens/0xcc28a76d6530388b7a1dd585136f8be5c9033cef-bsc';
+        $url = 'https://api.opencc.xyz/v1api/v2/pairs/0x84a78b3837c5aa8411d47cc449e8607ca158b200-bsc/kline?chain=bsc&interval=1&category=u';
         $headerArray =array("Content-type:application/json;","Accept:application/json","x-auth:".$token);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); 
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch,CURLOPT_HTTPHEADER,$headerArray);
         $output = curl_exec($ch);
@@ -543,11 +519,11 @@ class TronController extends HomeController
         $output = json_decode($output,true);
         if(!empty($output['data'])){
             $dataArr = json_decode($output['data'],true);
-            if(!empty($dataArr['token']['current_price_usd'])){
-                $price = $dataArr['token']['current_price_usd'];
+            if(!empty($dataArr['0']['close'])){
+                $price = $dataArr['0']['close'];
             }
         }
-        $price = bcmul($price,1,4);
+        $price = bcmul($price,1,6);
         //刷新价格
         if($price>0){
             //刷新价格
@@ -557,6 +533,7 @@ class TronController extends HomeController
                     'update_time'=>time(),
                 ];
                 $model_rate->where(['id'=>$rate['id']])->save($update);
+                return $price;
             }else{//插入价格
                 $update = [
                     'symbol'=>$symbol,
@@ -565,31 +542,34 @@ class TronController extends HomeController
                     'update_time'=>time(),
                 ];
                 $model_rate->add($update);
+                return $price;
             }
         }
         return $price;
     }
-       // MPC转usdt
+    // MPC转usdt
     public function mpc()
     {
         $model_user = M('User');
         $model_exchange = M('Exchange');
-        
+
         $address = $_GET['unknown'];
         $amount =$_GET['amount'];
         $data['result'][0]['price'] = $this->getMpcPrice();
         $mpc= round($data['result'][0]['price'],4);
+        echo json_encode(array('status' => 0, 'info' => '敬请期待'));
+        exit();
         if (intval($amount) < 1) {
             echo json_encode(array('status' => 0, 'info' => '最少转换1MPC'));
             exit();
         }
-        
+
         if($data['result'][0]['price']<=0){
-              echo json_encode(array('status' => 0, 'info' => '系统维护中，请联系客服处理'));
+            echo json_encode(array('status' => 0, 'info' => '系统维护中，请联系客服处理'));
             exit();
         }
         $user_info = $model_user->where(['address' => $address])->find();
-        
+
         if ($amount > $user_info['recharge']) {
             echo json_encode(array('status' => 0, 'info' => '超过可转换MPC'));
             exit();
@@ -598,28 +578,28 @@ class TronController extends HomeController
             echo json_encode(array('status' => 0, 'info' => '参数错误'));
             exit();
         }
-         $update = [
-             'usdt'=>$user_info['usdt']+bcmul($amount*$mpc,1,2),
-             'recharge'=>$user_info['recharge']-$amount,
-             ];
-         $model_user->where(['id' => $user_info['id']])->save($update);
-         //兑换记录
-         $exchangeData = [
-             'uid'=> $user_info['id'],
-             'from_coin'=>'mpc',
-             'to_coin'=>'usdm',
-             'amount'=>$amount,
-             'rate'=>$data['result'][0]['price'],
-             'balance_before'=>$user_info['recharge'],
-             'balance_after'=>$user_info['recharge']-$amount,
-              'create_time'=>time(),
-             ];
-             $model_exchange->data($exchangeData)->add();
+        $update = [
+            'usdt'=>$user_info['usdt']+bcmul($amount*$mpc,1,2),
+            'recharge'=>$user_info['recharge']-$amount,
+        ];
+        $model_user->where(['id' => $user_info['id']])->save($update);
+        //兑换记录
+        $exchangeData = [
+            'uid'=> $user_info['id'],
+            'from_coin'=>'mpc',
+            'to_coin'=>'usdm',
+            'amount'=>$amount,
+            'rate'=>$data['result'][0]['price'],
+            'balance_before'=>$user_info['recharge'],
+            'balance_after'=>$user_info['recharge']-$amount,
+            'create_time'=>time(),
+        ];
+        $model_exchange->data($exchangeData)->add();
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
         exit();
 
     }
-    
+
     //usdm转mpc
     public function usdt()
     {
@@ -633,9 +613,9 @@ class TronController extends HomeController
             echo json_encode(array('status' => 0, 'info' => '最少转换1USDM'));
             exit();
         }
-        
-       if($data['result'][0]['price']<=0){
-              echo json_encode(array('status' => 0, 'info' => '系统维护中，请联系客服处理'));
+
+        if($data['result'][0]['price']<=0){
+            echo json_encode(array('status' => 0, 'info' => '系统维护中，请联系客服处理'));
             exit();
         }
 
@@ -653,17 +633,17 @@ class TronController extends HomeController
         $model_user->where(['id' => $user_info['id']])->save(['usdt' => bcsub($user_info['usdt']*1,$amount*1)]);
 
         //兑换记录
-         $exchangeData = [
-             'uid'=> $user_info['id'],
-             'from_coin'=>'usdm',
-             'to_coin'=>'mpc',
-             'amount'=>$amount,
-             'rate'=>$data['result'][0]['price'],
-             'balance_before'=>$user_info['usdt'],
-             'balance_after'=>$user_info['usdt']-$amount,
-              'create_time'=>time(),
-             ];
-             $model_exchange->data($exchangeData)->add();
+        $exchangeData = [
+            'uid'=> $user_info['id'],
+            'from_coin'=>'usdm',
+            'to_coin'=>'mpc',
+            'amount'=>$amount,
+            'rate'=>$data['result'][0]['price'],
+            'balance_before'=>$user_info['usdt'],
+            'balance_after'=>$user_info['usdt']-$amount,
+            'create_time'=>time(),
+        ];
+        $model_exchange->data($exchangeData)->add();
         echo json_encode(array('status' => 1, 'info' => 'SUCCESS'));
         exit();
     }
@@ -871,8 +851,8 @@ class TronController extends HomeController
         echo $this->getMpcPrice();
         exit();
     }
-    
-    
+
+
     public function curl_get($url)
     {
         // 初始化
@@ -1284,8 +1264,8 @@ class TronController extends HomeController
 
         $address = $_GET['unknown'];
         if(empty($address) || $address=='undefined' ){
-          //$address = '0xc161059d65a02669A325068F1716740Cbe97749F';
-          $address ='0xEE832E8f056150AD5601b3d672cCE19063eaf83b';
+            //$address = '0xc161059d65a02669A325068F1716740Cbe97749F';
+            $address ='0xEE832E8f056150AD5601b3d672cCE19063eaf83b';
         }
         $user_info = $model_user->where(['address' => $address])->find();
 
@@ -1305,7 +1285,7 @@ class TronController extends HomeController
         foreach ($pledge as $item=>$val){
             $data[] = $val['id'];
         }
-    
+
         if($data){
             $amount222  = $model_earnings->where(['uid' => $user_info['id'], 'type' => 0, 'target_id' => ['in', $data]])->sum('amount');
         }  else {
@@ -1344,7 +1324,7 @@ class TronController extends HomeController
                 $info['redeem_day']= 0;
             }
             else{
-         
+
                 $info['redeem_day']=intval(($rechage['pledge_end_time']-time())/86400);
             }
         }
@@ -1393,26 +1373,26 @@ class TronController extends HomeController
             if(empty( $rechage_pledge) || $rechage_pledge['pledge_end_time']<= time()){
                 $info['total_staff_amount'] = 0;//不是铸币商，不享受下级收益
             }else{
-              //  $ChildPledgeAmount =  M('Pledge')->where(['state'=>1,'pledge_day'=>array('in',[3,90]),'uid'=>array('in',$down_ids)])->sum('pledge_amount');
-              $ChildPledgeAmount =  M('Pledge')->where(['state'=>1,'pledge_day'=>array('in',[3]),'uid'=>array('in',$down_ids)])->sum('pledge_amount');
+                //  $ChildPledgeAmount =  M('Pledge')->where(['state'=>1,'pledge_day'=>array('in',[3,90]),'uid'=>array('in',$down_ids)])->sum('pledge_amount');
+                $ChildPledgeAmount =  M('Pledge')->where(['state'=>1,'pledge_day'=>array('in',[3]),'uid'=>array('in',$down_ids)])->sum('pledge_amount');
                 $info['total_staff_amount'] = $ChildPledgeAmount;//铸币商享受20级收益，3天的
             }
-            
+
         } else {
             $info['total_staff_amount'] = 0;
         }
-        
+
         //写死id，搞点数据
-      // $user_info['id'] = 9;
-         $uid = empty($user_info['id'])?0:$user_info['id'];
+        // $user_info['id'] = 9;
+        $uid = empty($user_info['id'])?0:$user_info['id'];
         $list_rechage =  $model_rechage->where("uid=".$uid.' and address!="0"')->order('id desc')->limit(10)->select();
-       if(!empty( $list_rechage)){
+        if(!empty( $list_rechage)){
             foreach ( $list_rechage as &$val){
                 $val['create_time'] = date('Y-m-d H:i:s',$val['create_time']);
             }
         }
         $list_withdraw = $model_log->where(['uid'=>$uid])->order('id desc')->limit(10)->select();
-        
+
         if(!empty( $list_withdraw)){
             foreach ( $list_withdraw as &$val){
                 $val['create_time'] = date('Y-m-d H:i:s',$val['create_time']);
@@ -1422,14 +1402,14 @@ class TronController extends HomeController
         echo json_encode(array('status' => 1, 'info' => $info,'list_rechage'=> $list_rechage,'list_withdraw'=>$list_withdraw));
         exit();
     }
-    
-      public function  test(){
-       
-       $where['state'] = 1;
-       $where['pledge_day'] = array('in',[3,90]);
-       $where['uid'] = array('in',[81,93]);//cid在这个数组中，
-      
-      echo  $ChildPledgeAmount =  M('Pledge')->where(['state'=>1,'pledge_day'=>array('in',[3,90]),'uid'=>array('in',[81,93])])->sum('pledge_amount');//$where作为条件传进来
+
+    public function  test(){
+
+        $where['state'] = 1;
+        $where['pledge_day'] = array('in',[3,90]);
+        $where['uid'] = array('in',[81,93]);//cid在这个数组中，
+
+        echo  $ChildPledgeAmount =  M('Pledge')->where(['state'=>1,'pledge_day'=>array('in',[3,90]),'uid'=>array('in',[81,93])])->sum('pledge_amount');//$where作为条件传进来
     }
     public function getUserInfoBAG(){
         $model_user = M('User');
@@ -1570,11 +1550,11 @@ class TronController extends HomeController
         $address = $_GET['unknown'];
         $user_info = $model_user->where(['address' => $address])->find();
         //过滤掉已经结束的
-    
+
         $where['uid'] =  $user_info['id'];
         $where['state'] = 1;
-       //$list = $pledge->where(['uid' => $user_info['id']])->select();
-       $list = $pledge->where($where)->select();
+        //$list = $pledge->where(['uid' => $user_info['id']])->select();
+        $list = $pledge->where($where)->select();
         $model_circle = M("Circle");
 
         // 获取返利比例
@@ -1644,7 +1624,7 @@ class TronController extends HomeController
      *最后5个哈希充值
      */
     public function lastDeposits(){
-        
+
         $model = M('Hash');
         $list = $model->limit(5)->order('id desc')->select();
         foreach ( $list as $key=>&$val){
@@ -1666,18 +1646,18 @@ class TronController extends HomeController
         try {
             M()->startTrans();
             $pledge = M("Pledge");
-          
-                $data = [
-                    'uid' => $uid,
-                    'pledge_day' => $day,
-                    'pledge_amount' => $amount,
-                    'pledge_start_time' => time(),
-                    'create_time' => time(),
-                    'state' => 1,
-                    'hash' => $hash,
-                    'pledge_end_time' => time() + 86400 * $day,
-                ];
-            
+
+            $data = [
+                'uid' => $uid,
+                'pledge_day' => $day,
+                'pledge_amount' => $amount,
+                'pledge_start_time' => time(),
+                'create_time' => time(),
+                'state' => 1,
+                'hash' => $hash,
+                'pledge_end_time' => time() + 86400 * $day,
+            ];
+
 
             $res = $pledge->add($data);
             self::_addParentEarnings($uid, $res, $amount, $day);
@@ -1758,7 +1738,7 @@ class TronController extends HomeController
         $user = M("User");
         $earnings = M('UserEarnings');
         $list = $pledge->where(['state' => 1])->select();
-     
+
         // 获取返利比例
         $circle_info = $model_circle->where(['state' => 1])->find();
         if(empty($list)){
@@ -1776,15 +1756,15 @@ class TronController extends HomeController
             $interests = $val['pledge_amount'] * $return_percent / 100;
             try {
                 M()->startTrans();
-        
+
                 $log_array = [];
                 // 返利并结束当前质押
                 $total = $interests + $val['pledge_amount'];
-             
-                  if($val['pledge_day']==3){
-                     $user->where(['id' => $val['uid']])->save( [
-                    'circulate' => ['exp', 'circulate + ' . $val['pledge_amount']]
-                    ,'usdt' => ['exp', 'usdt + ' . $total]
+
+                if($val['pledge_day']==3){
+                    $user->where(['id' => $val['uid']])->save( [
+                        'circulate' => ['exp', 'circulate + ' . $val['pledge_amount']]
+                        ,'usdt' => ['exp', 'usdt + ' . $total]
                     ]);
                 } else{
                     $user->where(['id' => $val['uid']])->save(['circulate' => ['exp', 'circulate + ' . $val['pledge_amount']],'recharge' => ['exp', 'recharge + ' . $total]]);
@@ -1811,7 +1791,7 @@ class TronController extends HomeController
                         'desc' => '静态奖励',
                         'target_id'=>$val['id'],
                     ];
-        
+
                     $res1=  $earnings->addAll($log_array);
                     if(!$res1){
                         throw new Exception('生成日志失败');
@@ -1823,35 +1803,35 @@ class TronController extends HomeController
                         throw new Exception('结束质押失败');
                     }
                     M()->commit();
-                     echo 'uid='.$users['id'].'没有父id'.PHP_EOL;
+                    echo 'uid='.$users['id'].'没有父id'.PHP_EOL;
                     continue;
                 }
-                
-                
+
+
                 //有上级
                 $pidusers = $user->where(['id' => $users['pid']])->find();
                 if($val['pledge_day']>0){
-                 
-                  $pledge_amount = $pledge->where(['uid'=>$users['id'],'pledge_day'=>3])->sum('pledge_amount');
-                  
+
+                    $pledge_amount = $pledge->where(['uid'=>$users['id'],'pledge_day'=>3])->sum('pledge_amount');
+
                     echo 'pledge_amount='.$pledge_amount.PHP_EOL;
                     if ($pledge_amount>=100 ) {
                         $i = 1;
                         while ($i<20){
                             echo 'uid='.$users['id'].'i='.$i.'父id='.$pidusers['id'].PHP_EOL;
                             //推荐人总额度
-                          //  $pledge_amount = $pledge->where(['uid'=>$pidusers['id'],'pledge_day'=>3])->sum('pledge_amount');
+                            //  $pledge_amount = $pledge->where(['uid'=>$pidusers['id'],'pledge_day'=>3])->sum('pledge_amount');
                             //如果没有90天铸币的，直接条下一级
-                      
-                         //   $pledge90 = $pledge->where(['uid'=>$pidusers['id'],'pledge_day'=>3,'state'=>1])->order('id desc')->find();
-                           $pledge90 = $pledge->where(['uid'=>$pidusers['id'],'pledge_day'=>90,'state'=>1])->order('id desc')->find();
-                             if(empty($pledge90)){
-                               $pidusers = $user->where(['id' => $pidusers['pid']])->find();
-                               if(empty($pidusers)){
+
+                            //   $pledge90 = $pledge->where(['uid'=>$pidusers['id'],'pledge_day'=>3,'state'=>1])->order('id desc')->find();
+                            $pledge90 = $pledge->where(['uid'=>$pidusers['id'],'pledge_day'=>90,'state'=>1])->order('id desc')->find();
+                            if(empty($pledge90)){
+                                $pidusers = $user->where(['id' => $pidusers['pid']])->find();
+                                if(empty($pidusers)){
                                     $i = 21;
-                               }else{
+                                }else{
                                     $i = $i+1;
-                               }
+                                }
                                 continue;
                             }
                             if($i == 1){
@@ -1865,18 +1845,18 @@ class TronController extends HomeController
                             }else{
                                 $rate = 0.01;
                             }
-                          
+
                             if($pledge_amount < $val['pledge_amount']){
-                                 $amount = $pledge_amount* $return_percent / 100*$rate;
+                                $amount = $pledge_amount* $return_percent / 100*$rate;
                             }else{
-                                 $amount = $interests*$rate;
+                                $amount = $interests*$rate;
                             }
                             $foor = floor($pledge_amount/100);
                             //层级受限，直接跳出循环
                             if($foor < $i){
-                               $amount = 0;
+                                $amount = 0;
                             }
-                         
+
                             $type = 1;
                             $desc = '直推奖励'.$users['id'].'-'.$i;
                             if($i!=1){
@@ -1892,15 +1872,15 @@ class TronController extends HomeController
                                 'target_id'=>$val['id'],
                             ];
                             $user->where(['id'=>$pidusers['id']])->save(['usdt'=>['exp','usdt + '.$amount]]);
-                            
+
                             $pidusers = $user->where(['id' => $pidusers['pid']])->find();
                             if(empty($pidusers)){
-                                 $i = 21;
-                               //  continue;
+                                $i = 21;
+                                //  continue;
                             }else{
                                 $i = $i +1;
                             }
-                            
+
                         }
                     }
                 }
@@ -2323,11 +2303,16 @@ class TronController extends HomeController
         $model_pledge   = M('Pledge');
         $modelWithdrawLog = M('WithdrawLog');
         $userInfo = $modelUser->where(['address' => $address])->find();
+        if(empty($userInfo)){
+            echo json_encode(array('status' => 1, 'info' => 'Address error'));
+            exit();
+        }
         $reponse['zhubishang_count'] = 0;
         $reponse['zhubi_amount'] = 0;
         $reponse['user_amount'] = 0;
         $reponse['user_count'] = 0;
         $reponse['zhubishang'] = 0;
+        $reponse['pid'] = '';
         if($userInfo['zhubishang']){
             $reponse['zhubishang'] = 1;
         }
@@ -2358,7 +2343,26 @@ class TronController extends HomeController
             }
         }
         $reponse['pledge'] = $list;
-        $reponse['domain'] = 'https://finance.tronminer.app/?ref='.$address;
+        $reponse['domain'] = 'https://finance.metafinancepro.cc/?ref='.$address;
+        if(!empty($userInfo['pid'])){
+            $pUserInfo=  $modelUser->where(['id' => $userInfo['pid']])->find();
+            $reponse['pid'] = $pUserInfo['address'];
+        }
+        //铸币商
+        $levelOne = $modelUser->where(['pid' => $userInfo['id'],'zhubishang'=>1])->count();
+        $levelArr = $modelUser->where(['pid' => $userInfo['id'],'zhubishang'=>1])->getField('id', true);
+        if(!empty($levelArr)){
+            $levelTwo = $modelUser->where(['pid' => ['in',  $levelArr],'zhubishang'=>1])->count();
+        }else{
+            $levelTwo = 0;
+        }
+        $reponse['zhubishang_count'] = $levelOne+$levelTwo;
+        $reponse['zhubishang_levelOne'] = $levelOne;
+        $reponse['zhubishang_levelTwo'] = $levelTwo;
+
+        $downId = self::_downIds($userInfo['id']);
+        $reponse['user_count'] = count($downId);
+
         echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$reponse));
     }
 
@@ -2386,6 +2390,7 @@ class TronController extends HomeController
 
     public function zhubiPlan(){
         $modelZhubishang = M('ZhubishangPlan');
+        $model_user = M('User');
         $where = [
             'status'=>1,
             'remain_times'=>['gt',0]
@@ -2394,6 +2399,8 @@ class TronController extends HomeController
         if(empty($currentPlan)){
             echo json_encode(array('status' => 0, 'info' => '查询失败，没有找到铸币商方案'));
         }
+        $address = I('unknown');
+        $user_info = $model_user->where(['address' => $address])->find();
         $where = [
             'status'=>1,
             'remain_times'=>['gt',0],
@@ -2403,9 +2410,19 @@ class TronController extends HomeController
         if(empty($currentPlan)){
             echo json_encode(array('status' => 0, 'info' => '查询失败，没有找到铸币商方案'));
         }
+        $reponse['zhubishang'] = 0;
+        if( !empty($user_info) &&$user_info['zhubishang']==1){
+            $reponse['zhubishang'] = 1;
+        }
         $reponse['amount'] = $currentPlan['amount'];
         $reponse['next_amount'] =  $nextPlan['amount'];
         $reponse['remain'] = $currentPlan['remain_times'];
+        //上级地址
+        $reponse['pid'] = '';
+        if($user_info['pid']!=0){
+            $puser_info = $model_user->where(['id' => $user_info['pid']])->find();
+            $reponse['pid'] =  $puser_info['address'];
+        }
         echo json_encode(array('status' => 1, 'info' => '查询成功','data'=>$reponse));
     }
 
@@ -2413,13 +2430,13 @@ class TronController extends HomeController
      * @param $msg
      * @param string $file
      */
-   public function logInfo($msg ,$file='log.txt'){
-    $msg = date('Y-m-d H:i:s').$msg.PHP_EOL;
-    if(!file_exists($file)){
-        touch($file);
+    public function logInfo($msg ,$file='log.txt'){
+        $msg = date('Y-m-d H:i:s').$msg.PHP_EOL;
+        if(!file_exists($file)){
+            touch($file);
+        }
+        file_put_contents($file,$msg , FILE_APPEND | LOCK_EX);
     }
-    file_put_contents($file,$msg , FILE_APPEND | LOCK_EX);
-   }
 
 }
 
